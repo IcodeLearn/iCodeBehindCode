@@ -2,7 +2,22 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="">
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <select id="findByUsername" resultType="User" parameterType="string">
 
+    </select>
+
+    <insert id="userRegister" parameterType="User">
+        insert into user(uid, uname, utel, ugender, upassword, role_id)
+        values (#{uid}, #{uname}, #{utel}, #{ugender}, #{upassword}, #{roleId})
+    </insert>
+
+    <select id="findUserByTel" parameterType="string" resultType="User">
+        select utel from user where utel = #{utel}
+    </select>
+
+    <select id="getUserLoginInformation" parameterType="string" resultType="User">
+        select uid, utel, upassword, role_name from user, role where user.role_id = role.role_id and utel = #{tel}
+    </select>
 
 </mapper>
