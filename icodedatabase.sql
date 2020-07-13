@@ -398,7 +398,7 @@ create table user
    uname                nvarchar(20),
    utel                 nvarchar(11),
    ugender              nvarchar(2),
-   upassword            nvarchar(13),
+   upassword            nvarchar(255),
    uwenvarchart             nvarchar(255),
    primary key (uid)
 );
