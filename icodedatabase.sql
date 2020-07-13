@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/7/8 16:15:01                            */
+/* Created on:     2020/7/12 21:26:21                           */
 /*==============================================================*/
 
 
@@ -67,10 +67,10 @@ alter table adult_children comment '家长关联学生表：';
 /*==============================================================*/
 create table adult_news
 (
-   uid                  nvarchar(255) not null,
-   news_id              nvarchar(255) not null,
+   use_uid              nvarchar(255) not null,
+   new_news_id          nvarchar(255) not null,
    adult_news_reply     date,
-   primary key (uid, news_id)
+   primary key (use_uid, new_news_id)
 );
 
 alter table adult_news comment '家长消息管理表
@@ -82,7 +82,7 @@ alter table adult_news comment '家长消息管理表
 create table answerquestion
 (
    aq_id                nvarchar(255) not null,
-   qid                  nvarchar(255),
+   que_qid              nvarchar(255),
    aq_text              nvarchar(255),
    aq_answer            nvarchar(255),
    aq_konw              nvarchar(255),
@@ -101,10 +101,10 @@ id : aq_id
 /*==============================================================*/
 create table assitant_news
 (
-   uid                  nvarchar(255) not null,
-   news_id              nvarchar(255) not null,
+   use_uid              nvarchar(255) not null,
+   new_news_id          nvarchar(255) not null,
    assitant_news_begin  date,
-   primary key (uid, news_id)
+   primary key (use_uid, new_news_id)
 );
 
 alter table assitant_news comment '教师/助教-消息管理表
@@ -117,7 +117,7 @@ alter table assitant_news comment '教师/助教-消息管理表
 create table codequestion
 (
    code_id              nvarchar(255) not null,
-   qid                  nvarchar(255),
+   que_qid              nvarchar(255),
    code_text            nvarchar(255),
    code_answer          nvarchar(255),
    code_know            nvarchar(255),
@@ -136,7 +136,7 @@ id: code_id
 create table completion
 (
    completion_id        nvarchar(255) not null,
-   qid                  nvarchar(255),
+   que_qid              nvarchar(255),
    completion_text      nvarchar(255),
    completion_A         nvarchar(255),
    completion_B         nvarchar(255),
@@ -161,8 +161,8 @@ id: completion_id
 create table course
 (
    course_id            nvarchar(255) not null,
-   uid                  nvarchar(255),
-   qsid                 nvarchar(255),
+   use_uid              nvarchar(255),
+   que_qsid             nvarchar(255),
    cname                nvarchar(30),
    cintroduce           nvarchar(255),
    code                 nvarchar(6),
@@ -181,7 +181,7 @@ alter table course comment '课程id:course_id
 create table enclosure
 (
    enclosure_id         nvarchar(255) not null,
-   homework_id          nvarchar(255),
+   hom_homework_id      nvarchar(255),
    enclosure_name       nvarchar(30),
    enclosure_type       nvarchar(10),
    enclosure_path       nvarchar(255),
@@ -200,7 +200,7 @@ alter table enclosure comment '附件
 create table homework
 (
    homework_id          nvarchar(255) not null,
-   course_id            nvarchar(255),
+   cou_course_id        nvarchar(255),
    homework_name        nvarchar(30),
    homework_content     nvarchar(255),
    homework_begin       date,
@@ -218,7 +218,7 @@ alter table homework comment '作业表
 create table morechoice
 (
    more_id              nvarchar(255) not null,
-   qid                  nvarchar(255),
+   que_qid              nvarchar(255),
    more_text            nvarchar(255),
    more_A               nvarchar(255),
    more_B               nvarchar(255),
@@ -259,7 +259,7 @@ alter table news_bank comment '消息
 create table onechoice
 (
    one_id               nvarchar(255) not null,
-   qid                  nvarchar(255),
+   que_qid              nvarchar(255),
    one_text             nvarchar(255),
    one_A                nvarchar(255),
    one_B                nvarchar(255),
@@ -285,7 +285,7 @@ alter table onechoice comment '单选题
 create table permission
 (
    pid                  nvarchar(255) not null,
-   role_id              nvarchar(255),
+   role_name          nvarchar(255),
    permission           nvarchar(255),
    primary key (pid)
 );
@@ -296,7 +296,7 @@ create table permission
 create table question_bank
 (
    qsid                 nvarchar(255) not null,
-   course_id            nvarchar(255),
+   cou_course_id        nvarchar(255),
    qsname               nvarchar(30),
    primary key (qsid)
 );
@@ -309,9 +309,9 @@ alter table question_bank comment '题库id：qsid
 /*==============================================================*/
 create table question_bank_questiontype
 (
-   qid                  nvarchar(255) not null,
-   qsid                 nvarchar(255) not null,
-   primary key (qid, qsid)
+   que_qid              nvarchar(255) not null,
+   que_qsid             nvarchar(255) not null,
+   primary key (que_qid, que_qsid)
 );
 
 alter table question_bank_questiontype comment '题库与题的关系';
@@ -322,7 +322,7 @@ alter table question_bank_questiontype comment '题库与题的关系';
 create table questiontype
 (
    qid                  nvarchar(255) not null,
-   news_id              nvarchar(255),
+   new_news_id          nvarchar(255),
    qtype                nvarchar(255),
    primary key (qid)
 );
@@ -340,7 +340,6 @@ alter table questiontype comment '题
 create table role
 (
    role_id              nvarchar(255) not null,
-   uid                  nvarchar(255),
    role_name            nvarchar(255),
    primary key (role_id)
 );
@@ -350,11 +349,11 @@ create table role
 /*==============================================================*/
 create table student_reply
 (
-   test_id              nvarchar(255) not null,
-   qid                  nvarchar(255) not null,
-   uid                  nvarchar(255) not null,
+   tes_test_id          nvarchar(255) not null,
+   que_qid              nvarchar(255) not null,
+   use_uid              nvarchar(255) not null,
    reply                nvarchar(255),
-   primary key (test_id, qid, uid)
+   primary key (tes_test_id, que_qid, use_uid)
 );
 
 alter table student_reply comment '学生答题情况
@@ -366,7 +365,7 @@ alter table student_reply comment '学生答题情况
 create table test
 (
    test_id              nvarchar(255) not null,
-   course_id            nvarchar(255),
+   cou_course_id        nvarchar(255),
    test_name            nvarchar(255),
    test_time            date,
    test_begin           date,
@@ -384,9 +383,9 @@ alter table test comment '测试id：test_id
 /*==============================================================*/
 create table test_questiontype
 (
-   test_id              nvarchar(255) not null,
-   qid                  nvarchar(255) not null,
-   primary key (test_id, qid)
+   tes_test_id          nvarchar(255) not null,
+   que_qid              nvarchar(255) not null,
+   primary key (tes_test_id, que_qid)
 );
 
 /*==============================================================*/
@@ -395,6 +394,7 @@ create table test_questiontype
 create table user
 (
    uid                  nvarchar(255) not null,
+   role_id          nvarchar(255),
    uname                nvarchar(20),
    utel                 nvarchar(11),
    ugender              nvarchar(2),
@@ -414,10 +414,10 @@ alter table user comment '用户实体
 /*==============================================================*/
 create table user_role_course
 (
-   role_id              nvarchar(255) not null,
-   uid                  nvarchar(255) not null,
-   course_id            nvarchar(255) not null,
-   primary key (role_id, uid, course_id)
+   role_name          nvarchar(255) not null,
+   use_uid              nvarchar(255) not null,
+   cou_course_id        nvarchar(255) not null,
+   primary key (role_name, use_uid, cou_course_id)
 );
 
 alter table user_role_course comment '用户的课程角色';
@@ -427,105 +427,105 @@ alter table user_role_course comment '用户的课程角色';
 /*==============================================================*/
 create table user_test
 (
-   uid                  nvarchar(255) not null,
-   test_id              nvarchar(255) not null,
+   use_uid              nvarchar(255) not null,
+   tes_test_id          nvarchar(255) not null,
    ut_grade             int,
    ut_state             nvarchar(255),
    ut_begin             date,
-   primary key (uid, test_id)
+   primary key (use_uid, tes_test_id)
 );
 
 alter table user_test comment '成绩：ut_grade
 状态：ut_state
 学生开始答题时间：ut_begin';
 
-alter table adult_news add constraint FK_adult_news foreign key (uid)
+alter table adult_news add constraint FK_adult_news foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table adult_news add constraint FK_adult_news2 foreign key (news_id)
+alter table adult_news add constraint FK_adult_news2 foreign key (new_news_id)
       references news_bank (news_id) on delete cascade on update cascade;
 
-alter table answerquestion add constraint FK_questiontype_answerquestion foreign key (qid)
+alter table answerquestion add constraint FK_questiontype_answerquestion foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table assitant_news add constraint FK_assitant_news foreign key (uid)
+alter table assitant_news add constraint FK_assitant_news foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table assitant_news add constraint FK_assitant_news2 foreign key (news_id)
+alter table assitant_news add constraint FK_assitant_news2 foreign key (new_news_id)
       references news_bank (news_id) on delete cascade on update cascade;
 
-alter table codequestion add constraint FK_questiontype_codequestion foreign key (qid)
+alter table codequestion add constraint FK_questiontype_codequestion foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table completion add constraint FK_questiontype_completion foreign key (qid)
+alter table completion add constraint FK_questiontype_completion foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table course add constraint FK_course_question_bank foreign key (qsid)
+alter table course add constraint FK_course_question_bank foreign key (que_qsid)
       references question_bank (qsid) on delete cascade on update cascade;
 
-alter table course add constraint FK_course_user foreign key (uid)
+alter table course add constraint FK_course_user foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table enclosure add constraint FK_homework_enclosure foreign key (homework_id)
+alter table enclosure add constraint FK_homework_enclosure foreign key (hom_homework_id)
       references homework (homework_id) on delete cascade on update cascade;
 
-alter table homework add constraint FK_course_homework foreign key (course_id)
+alter table homework add constraint FK_course_homework foreign key (cou_course_id)
       references course (course_id) on delete cascade on update cascade;
 
-alter table morechoice add constraint FK_question_morechoice foreign key (qid)
+alter table morechoice add constraint FK_question_morechoice foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table onechoice add constraint FK_questiontype_onechoice foreign key (qid)
+alter table onechoice add constraint FK_questiontype_onechoice foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table permission add constraint FK_role_permission foreign key (role_id)
+alter table permission add constraint FK_role_permission foreign key (role_name)
       references role (role_id) on delete cascade on update cascade;
 
-alter table question_bank add constraint FK_course_question_bank2 foreign key (course_id)
+alter table question_bank add constraint FK_course_question_bank2 foreign key (cou_course_id)
       references course (course_id) on delete cascade on update cascade;
 
-alter table question_bank_questiontype add constraint FK_question_bank_questiontype foreign key (qid)
+alter table question_bank_questiontype add constraint FK_question_bank_questiontype foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table question_bank_questiontype add constraint FK_question_bank_questiontype2 foreign key (qsid)
+alter table question_bank_questiontype add constraint FK_question_bank_questiontype2 foreign key (que_qsid)
       references question_bank (qsid) on delete cascade on update cascade;
 
-alter table questiontype add constraint FK_news_bank_questiontype foreign key (news_id)
+alter table questiontype add constraint FK_news_bank_questiontype foreign key (new_news_id)
       references news_bank (news_id) on delete cascade on update cascade;
 
-alter table role add constraint FK_user_role foreign key (uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table student_reply add constraint FK_student_reply foreign key (test_id)
+alter table student_reply add constraint FK_student_reply foreign key (tes_test_id)
       references test (test_id) on delete cascade on update cascade;
 
-alter table student_reply add constraint FK_student_reply2 foreign key (qid)
+alter table student_reply add constraint FK_student_reply2 foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table student_reply add constraint FK_student_reply3 foreign key (uid)
+alter table student_reply add constraint FK_student_reply3 foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table test add constraint FK_course_test foreign key (course_id)
+alter table test add constraint FK_course_test foreign key (cou_course_id)
       references course (course_id) on delete cascade on update cascade;
 
-alter table test_questiontype add constraint FK_test_questiontype foreign key (test_id)
+alter table test_questiontype add constraint FK_test_questiontype foreign key (tes_test_id)
       references test (test_id) on delete cascade on update cascade;
 
-alter table test_questiontype add constraint FK_test_questiontype2 foreign key (qid)
+alter table test_questiontype add constraint FK_test_questiontype2 foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table user_role_course add constraint FK_user_role_course foreign key (role_id)
+alter table user add constraint FK_user_role foreign key (role_id)
       references role (role_id) on delete cascade on update cascade;
 
-alter table user_role_course add constraint FK_user_role_course2 foreign key (uid)
+alter table user_role_course add constraint FK_user_role_course foreign key (role_name)
+      references role (role_id) on delete cascade on update cascade;
+
+alter table user_role_course add constraint FK_user_role_course2 foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table user_role_course add constraint FK_user_role_course3 foreign key (course_id)
+alter table user_role_course add constraint FK_user_role_course3 foreign key (cou_course_id)
       references course (course_id) on delete cascade on update cascade;
 
-alter table user_test add constraint FK_user_test foreign key (uid)
+alter table user_test add constraint FK_user_test foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
 
-alter table user_test add constraint FK_user_test2 foreign key (test_id)
+alter table user_test add constraint FK_user_test2 foreign key (tes_test_id)
       references test (test_id) on delete cascade on update cascade;
 

@@ -1,4 +1,4 @@
 package com.example.demo.mapper;
 
-public class TestMapper {
+public class UserMapper {
 }
