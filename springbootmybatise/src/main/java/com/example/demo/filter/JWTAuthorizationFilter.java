@@ -4,6 +4,7 @@ package com.example.demo.filter;
 import com.example.demo.utils.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 // 鉴权
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
@@ -39,8 +41,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) {
         String token = tokenHeader.replace(JwtTokenUtils.TOKEN_PREFIX, "");
         String username = JwtTokenUtils.getUsername(token);
+        String role = JwtTokenUtils.getUserRole(token);
         if(username != null) {
-            return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+            return new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(new SimpleGrantedAuthority(role)));
         }
         return null;
     }

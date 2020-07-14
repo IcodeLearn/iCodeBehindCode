@@ -35,9 +35,18 @@ public class UserService implements UserDetailsService {
         return ResultMap.setResult("200", null, "注册成功");
     }
 
+    public HashMap<String, Object> getUserByUserName(String  username) {
+        User user = userMapper.getUserByUserName(username);
+        return ResultMap.setResult("200", user, "查询成功！");
+    }
+
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.getUserLoginInformation(username);
+        if(user == null) {
+            return new JwtUser();
+        }
         return new JwtUser(user);
     }
 }

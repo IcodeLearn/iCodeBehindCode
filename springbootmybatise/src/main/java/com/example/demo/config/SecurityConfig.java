@@ -37,6 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 可以访问用户注册接口
                 .antMatchers("/user/register", "/user/login")
                 .permitAll()
+                .antMatchers("/teacher/**")
+                .hasRole("teacher")
+                .antMatchers("/student/**")
+                .hasRole("student")
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -46,6 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf()
                 .disable()
-                .cors();
+                .cors()
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new JWTAuthenticationEntryPoint());
     }
 }

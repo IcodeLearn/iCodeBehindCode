@@ -20,4 +20,7 @@
         select uid, utel, upassword, role_name from user, role where user.role_id = role.role_id and utel = #{tel}
     </select>
 
+    <select id="getUserByUserName" parameterType="string" resultType="User">
+        select  * from user where uname = #{username}
+    </select>
 </mapper>

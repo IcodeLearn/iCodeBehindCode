@@ -12,4 +12,6 @@ public interface UserMapper {
     User findUserByTel(String tel);
 
     User getUserLoginInformation(String tel);
+
+    User getUserByUserName(String username);
 }

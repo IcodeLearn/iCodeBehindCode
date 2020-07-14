@@ -2,11 +2,9 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import com.example.demo.utils.ResultMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -26,5 +24,24 @@ public class UserController {
         return "测试成功！";
     }
 
+    @PostMapping("/teacher/courses")
+    public String creatCourse() {
+        return "新增了一门课程！";
+    }
 
+    @DeleteMapping("/teacher/courses/{id}")
+    public String deleteCourseById(@PathVariable String id) {
+        return "删除了一门课程！";
+    }
+
+    @PostMapping("/student/courses")
+    public String createSTCourse() {
+        return "我是学生，新添加了一门课程";
+    }
+
+    @PostMapping("/user_name")
+    public HashMap<String, Object> getUserByUserName(String username) {
+        // 调service
+        return userService.getUserByUserName(username);
+    }
 }
