@@ -27,21 +27,26 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String tokenHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
-        // 如果请求头中没有Authorization信息则直接放行
-        if(tokenHeader == null || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
-            chain.doFilter(request, response);
-            return;
-        }
-        // 如果请求头中有token,则进行解析，并且设置认证信息
-        SecurityContextHolder.getContext().setAuthentication(getAuthentication(tokenHeader));
-        super.doFilterInternal(request, response, chain);
+       if(request.getMethod().equals("OPTIONS")) {
+           response.setStatus(HttpServletResponse.SC_OK);
+       }else {
+           String tokenHeader = request.getHeader(JwtTokenUtils.TOKEN_HEADER);
+           // 如果请求头中没有Authorization信息则直接放行
+           if(tokenHeader == null || !tokenHeader.startsWith(JwtTokenUtils.TOKEN_PREFIX)) {
+               chain.doFilter(request, response);
+               return;
+           }
+           // 如果请求头中有token,则进行解析，并且设置认证信息
+           SecurityContextHolder.getContext().setAuthentication(getAuthentication(tokenHeader));
+           super.doFilterInternal(request, response, chain);
+       }
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(String tokenHeader) {
         String token = tokenHeader.replace(JwtTokenUtils.TOKEN_PREFIX, "");
         String username = JwtTokenUtils.getUsername(token);
         String role = JwtTokenUtils.getUserRole(token);
+
         if(username != null) {
             return new UsernamePasswordAuthenticationToken(username, null, Collections.singleton(new SimpleGrantedAuthority(role)));
         }

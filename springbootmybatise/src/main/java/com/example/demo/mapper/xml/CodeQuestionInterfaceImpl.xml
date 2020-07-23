@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.CodeQuestionMapper">
+    <select id="findCodeQuestionByText"  resultType="CodeQuestion">
+        select * from codequestion where code_text = #{text} and source_id = #{id}
+    </select>
+
+    <insert id="insertCodeQuestion" parameterType="CodeQuestion">
+        insert into codequestion (code_id, code_text, code_answer, code_parse, code_level, code_type, source_id) values (#{codeId}, #{codeText}, #{codeAnswer}, #{codeParse}, #{codeLevel},  #{codeType}, #{sourceId})
+    </insert>
+
+    <select id="findCodeQuestionById" parameterType="string" resultType="CodeQuestion">
+        select * from codequestion where source_id = #{sourceId}
+    </select>
+
+</mapper>

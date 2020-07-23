@@ -36,6 +36,7 @@ public class JWTAuthenticatonFilter extends UsernamePasswordAuthenticationFilter
         // 从输入流中获取登陆的信息
         try{
             LoginUser loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginUser.class);
+
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
                     loginUser.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
@@ -50,7 +51,8 @@ public class JWTAuthenticatonFilter extends UsernamePasswordAuthenticationFilter
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JwtUser jwtUser = (JwtUser) authResult.getPrincipal();
-
+        // 获取用户Id
+        String userId = jwtUser.getId();
         String role = "";
         // 每个用户在某一个时间内只有一个角色
         Collection<? extends GrantedAuthority> authorities = jwtUser.getAuthorities();
@@ -61,7 +63,8 @@ public class JWTAuthenticatonFilter extends UsernamePasswordAuthenticationFilter
         // 返回创建成功的token
         // 按照jwt的规定，最后请求的格式应该是"Bearer token"
         response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token);
-        response.getWriter().write(mapper.writeValueAsString(ResultMap.setResult("200", null, "登陆成功！")));
+        response.getWriter().write(mapper.writeValueAsString(ResultMap.setResult("200", new JwtUser(jwtUser.getId(), jwtUser.getUsername(), jwtUser.getAuthorities()),
+                "登陆成功！")));
     }
 
     // 验证失败的回调

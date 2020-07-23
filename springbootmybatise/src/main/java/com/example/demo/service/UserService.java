@@ -20,6 +20,11 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 注册
+     * @param user 用户对象
+     * @return
+     */
     public HashMap<String, Object> userRegister(User user) {
         user.setUid(UUID.randomUUID().toString());
         user.setUpassword(new BCryptPasswordEncoder().encode(user.getUpassword()));
@@ -35,12 +40,12 @@ public class UserService implements UserDetailsService {
         return ResultMap.setResult("200", null, "注册成功");
     }
 
-    public HashMap<String, Object> getUserByUserName(String  username) {
-        User user = userMapper.getUserByUserName(username);
-        return ResultMap.setResult("200", user, "查询成功！");
-    }
-
-
+    /**
+     * 根据用户名查找用户
+     * @param username 用户名（电话，邮箱）
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userMapper.getUserLoginInformation(username);

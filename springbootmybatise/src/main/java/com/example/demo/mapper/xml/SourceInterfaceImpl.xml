@@ -2,7 +2,25 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="">
+<mapper namespace="com.example.demo.mapper.SourceMapper">
 
+    <select id="findSourceByTeacherAndCourse" resultType="Source">
+        select * from source where course_id = #{courseId} and uid = #{uid}
+    </select>
 
+    <insert id="createSource" parameterType="Source">
+        insert into source
+        (source_id, source_name, source_type, source_upload_time, source_path, course_id, uid)
+        values
+        (#{sourceId}, #{sourceName}, #{sourceType}, #{sourceUploadTime}, #{sourcePath}, #{courseId}, #{uid})
+    </insert>
+
+    <update id="updateSourceById" parameterType="Source">
+        update source set source_name=#{sourceName}, source_type=#{sourceType},
+        source_upload_time=#{sourceUploadTime}, source_path=#{sourcePath} where source_id=#{sourceId}
+    </update>
+
+    <select id="findBySourceById" parameterType="string" resultType="Source">
+        select * from source where source_id = #{sourceId}
+    </select>
 </mapper>

@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 // 可以访问用户注册接口
-                .antMatchers("/user/register", "/user/login")
+                .antMatchers("/user/register", "/user/login", "/role/register")
                 .permitAll()
                 .antMatchers("/teacher/**")
                 .hasRole("teacher")

@@ -39,9 +39,5 @@ public class UserController {
         return "我是学生，新添加了一门课程";
     }
 
-    @PostMapping("/user_name")
-    public HashMap<String, Object> getUserByUserName(String username) {
-        // 调service
-        return userService.getUserByUserName(username);
-    }
+
 }

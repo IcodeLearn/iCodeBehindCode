@@ -30,9 +30,7 @@ drop table if exists onechoice;
 
 drop table if exists permission;
 
-drop table if exists question_bank;
-
-drop table if exists question_bank_questiontype;
+drop table if exists source_questiontype;
 
 drop table if exists questiontype;
 
@@ -49,6 +47,24 @@ drop table if exists user;
 drop table if exists user_role_course;
 
 drop table if exists user_test;
+
+CREATE TABLE source
+(
+    source_id           nvarchar(255),
+
+    source_name         nvarchar(255),
+
+    source_type         nvarchar(255),
+
+    source_upload_time  NVARCHAR(255),
+
+    source_path         date,
+
+    course_id           nvarchar(255),
+
+    uid                  NVARCHAR(255),
+    PRIMARY key(source_id)
+);
 
 /*==============================================================*/
 /* Table: adult_children                                        */
@@ -268,7 +284,7 @@ create table onechoice
    one_E                nvarchar(255),
    one_F                nvarchar(255),
    one_answer           nvarchar(255),
-   one_know             nvarchar(255),
+   one_parse            nvarchar(255),
    one_level            nvarchar(255),
    primary key (one_id)
 );
@@ -290,31 +306,19 @@ create table permission
    primary key (pid)
 );
 
-/*==============================================================*/
-/* Table: question_bank                                         */
-/*==============================================================*/
-create table question_bank
-(
-   qsid                 nvarchar(255) not null,
-   cou_course_id        nvarchar(255),
-   qsname               nvarchar(30),
-   primary key (qsid)
-);
 
-alter table question_bank comment '题库id：qsid
-题库名称：qsname';
 
 /*==============================================================*/
-/* Table: question_bank_questiontype                            */
+/* Table: source_questiontype                            */
 /*==============================================================*/
-create table question_bank_questiontype
+create table source_questiontype
 (
    que_qid              nvarchar(255) not null,
    que_qsid             nvarchar(255) not null,
    primary key (que_qid, que_qsid)
 );
 
-alter table question_bank_questiontype comment '题库与题的关系';
+alter table source_questiontype comment '题库与题的关系';
 
 /*==============================================================*/
 /* Table: questiontype                                          */
@@ -460,8 +464,8 @@ alter table codequestion add constraint FK_questiontype_codequestion foreign key
 alter table completion add constraint FK_questiontype_completion foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table course add constraint FK_course_question_bank foreign key (que_qsid)
-      references question_bank (qsid) on delete cascade on update cascade;
+alter table course add constraint FK_course_source foreign key (que_qsid)
+      references source (source_id) on delete cascade on update cascade;
 
 alter table course add constraint FK_course_user foreign key (use_uid)
       references user (uid) on delete cascade on update cascade;
@@ -481,14 +485,12 @@ alter table onechoice add constraint FK_questiontype_onechoice foreign key (que_
 alter table permission add constraint FK_role_permission foreign key (role_name)
       references role (role_id) on delete cascade on update cascade;
 
-alter table question_bank add constraint FK_course_question_bank2 foreign key (cou_course_id)
-      references course (course_id) on delete cascade on update cascade;
 
-alter table question_bank_questiontype add constraint FK_question_bank_questiontype foreign key (que_qid)
+alter table source_questiontype add constraint FK_source_questiontype foreign key (que_qid)
       references questiontype (qid) on delete cascade on update cascade;
 
-alter table question_bank_questiontype add constraint FK_question_bank_questiontype2 foreign key (que_qsid)
-      references question_bank (qsid) on delete cascade on update cascade;
+alter table source_questiontype add constraint FK_source_questiontype2 foreign key (que_qsid)
+      references source (source_id) on delete cascade on update cascade;
 
 alter table questiontype add constraint FK_news_bank_questiontype foreign key (new_news_id)
       references news_bank (news_id) on delete cascade on update cascade;
@@ -529,3 +531,8 @@ alter table user_test add constraint FK_user_test foreign key (use_uid)
 alter table user_test add constraint FK_user_test2 foreign key (tes_test_id)
       references test (test_id) on delete cascade on update cascade;
 
+alter table source add constraint FK_source_course foreign key (course_id)
+      references course (course_id) on delete cascade on update cascade;
+
+   alter table source add constraint FK_source_user foreign key (uid)
+      references user (uid) on delete cascade on update cascade;

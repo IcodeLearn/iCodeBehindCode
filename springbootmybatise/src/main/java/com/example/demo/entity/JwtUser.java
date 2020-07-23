@@ -20,10 +20,9 @@ public class JwtUser implements UserDetails
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser(String id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+    public JwtUser(String id, String username,  Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.authorities = authorities;
     }
 
@@ -37,6 +36,14 @@ public class JwtUser implements UserDetails
         this.password = user.getUpassword();
         // 返回一个不可变的集合，只包含指定对象
         authorities = Collections.singleton(new SimpleGrantedAuthority(user.getRoleName()));
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     // 获取权限信息

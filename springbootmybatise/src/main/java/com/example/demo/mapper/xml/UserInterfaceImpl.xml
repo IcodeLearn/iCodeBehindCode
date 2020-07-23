@@ -3,9 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.UserMapper">
-    <select id="findByUsername" resultType="User" parameterType="string">
 
-    </select>
 
     <insert id="userRegister" parameterType="User">
         insert into user(uid, uname, utel, ugender, upassword, role_id)
@@ -20,7 +18,5 @@
         select uid, utel, upassword, role_name from user, role where user.role_id = role.role_id and utel = #{tel}
     </select>
 
-    <select id="getUserByUserName" parameterType="string" resultType="User">
-        select  * from user where uname = #{username}
-    </select>
+
 </mapper>

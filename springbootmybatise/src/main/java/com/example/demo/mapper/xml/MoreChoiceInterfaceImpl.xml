@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MoreChoiceMapper">
+
+    <select id="findMoreChoiceByText" resultType="MoreChoice">
+        select * from morechoice where more_text = #{text} and source_id = #{id}
+    </select>
+
+    <insert id="insertMoreChoice" parameterType="MoreChoice">
+        insert into morechoice (more_id, more_text, more_A, more_B, more_C, more_D, more_E,
+        more_F, more_answer, more_parse, more_level, source_id)
+        values
+        (#{moreId}, #{moreText}, #{moreA}, #{moreB}, #{moreC}, #{moreD}, #{moreE}, #{moreF},
+        #{moreAnswer}, #{moreParse}, #{moreLevel}, #{sourceId})
+    </insert>
+</mapper>
