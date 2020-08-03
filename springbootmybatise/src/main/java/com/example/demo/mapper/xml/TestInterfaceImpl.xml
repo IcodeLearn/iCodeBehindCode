@@ -3,6 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.TestMapper">
+    <select id="findTestAllQuestion" parameterType="string" resultType="Question">
+        select * from question where question_id
+        in
+        (select question_id from test_question where test_id = #{testId})
+    </select>
 
+    <insert id="insertTestQuestion">
+        insert into test_question (test_id, question_id, grade)
+        values
+        (#{testId}, #{questionId}, #{point})
+    </insert>
 
+    <select id="findTestAllQuestionByType" resultType="Question">
+        select * from question where question_id
+        in
+        (select question_id from test_question where test_id = #{testId})
+        and question_type = #{type}
+    </select>
 </mapper>

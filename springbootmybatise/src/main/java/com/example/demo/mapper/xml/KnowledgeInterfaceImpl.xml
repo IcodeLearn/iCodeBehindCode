@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.KnowledgeMapper">
+    <select id="findKnowledgeByCourseId" resultType="Knowledge" parameterType="string">
+        select * from knowledge where course_id = #{courseId}
+    </select>
+
+    <insert id="insertKnowledge" parameterType="Knowledge">
+        insert into knowledge (knowledge_id, knowledge_name, course_id) values (#{knowledgeId}, #{knowledgeName}, #{courseId})
+    </insert>
+
+    <delete id="deleteKnowledge" parameterType="string">
+        delete from knowledge where knowledge_id = #{knowledgeId}
+    </delete>
+
+    <update id="updateKnowledge" parameterType="Knowledge">
+        update knowledge set knowledge_name = #{knowledgeName} where knowledge_id = #{knowledgeId}
+    </update>
+</mapper>

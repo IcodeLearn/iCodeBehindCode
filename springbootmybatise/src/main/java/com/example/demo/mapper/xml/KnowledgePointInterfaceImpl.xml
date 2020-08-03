@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.KnowledgePointMapper">
+    <insert id="insertBatchKnowledgePoint" parameterType="list">
+        insert into knowledge_point (id, path, content, is_root, knowledge_id)
+        values
+        <foreach collection="list" item="item" separator="," index="index">
+            (
+                #{item.id}, #{item.path}, #{item.content}, #{item.isRoot}, #{item.knowledgeId}
+            )
+        </foreach>
+    </insert>
+
+    <select id="findAll" parameterType="string" resultType="KnowledgePoint">
+        select * from knowledge_point where knowledge_id = #{id}
+    </select>
+</mapper>

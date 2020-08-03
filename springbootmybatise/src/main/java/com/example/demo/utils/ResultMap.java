@@ -1,6 +1,8 @@
 package com.example.demo.utils;
 
+
 import java.util.HashMap;
+
 
 public class ResultMap {
 
@@ -11,4 +13,5 @@ public class ResultMap {
         map.put("message", message);
         return map;
     }
+
 }

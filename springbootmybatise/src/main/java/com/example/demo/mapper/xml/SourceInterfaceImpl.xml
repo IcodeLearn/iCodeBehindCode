@@ -23,4 +23,5 @@
     <select id="findBySourceById" parameterType="string" resultType="Source">
         select * from source where source_id = #{sourceId}
     </select>
+
 </mapper>

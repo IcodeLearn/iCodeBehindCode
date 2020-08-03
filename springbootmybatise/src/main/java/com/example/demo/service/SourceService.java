@@ -9,7 +9,6 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,11 +20,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
-/*
-题库分为几张表，增加了空间的浪费，代码的冗余，但是
-节约了时间，提高了增删改查的效率，两权相害取其轻
-web网页时间比空间更为重要
- */
+
 @Service
 public class SourceService {
 
@@ -33,21 +28,7 @@ public class SourceService {
     private SourceMapper sourceMapper;
 
     @Autowired
-    private OneChoiceService oneChoiceService;
-
-    @Autowired
-    private MoreChoiceService moreChoiceService;
-
-    @Autowired
-    private CompletionService completionService;
-
-    @Autowired
-    private AnswerQuestionService answerQuestionService;
-
-    @Autowired
-    private CodeQuestionService codeQuestionService;
-
-    private Random random = new Random();
+    private QuestionService questionService;
 
     // 默认存放题库文件位置
     private static  final String path = "src/main/resources/static/questionbank/";
@@ -109,7 +90,7 @@ public class SourceService {
      * 2. 返回值不为null 做判断 是否覆盖
      * @return
      */
-    public Source findSourceByTeacherAndCourse(String courseId, String uid) {
+    private Source findSourceByTeacherAndCourse(String courseId, String uid) {
         return sourceMapper.findSourceByTeacherAndCourse(courseId, uid);
     }
 
@@ -130,122 +111,33 @@ public class SourceService {
 
                 // 获取题型
                 Cell cell = sheet.getCell(col, 0);
-                String type = MyStringUtil.replaceSpecialStr(cell.getContents());
-                System.out.println("type: " + type);
+                String questionType = MyStringUtil.replaceSpecialStr(cell.getContents());
+                System.out.println("type: " + questionType);
+                if(!questionType.equals("单选题") && !questionType.equals("多选题") && !questionType.equals("填空题") && !questionType.equals("简答题") &&
+                        !questionType.equals("判断题") && !questionType.equals("代码题")) {
+                    throw new IllegalArgumentException("错误的题型输入！");
+                }
                 // 生成一个随机ID
                 String id = UUID.randomUUID().toString();
 
-                 //同时需要向题库_题联系表中增加一条记录
-                switch (type){
-                    case "单选题":
-                        System.out.println("我是单选题！");
-                        String oneText = sheet.getCell(col, 1).getContents();
-                        if(isCover && oneChoiceService.findOneChoiceByText(oneText, fileId) != null) {
-
-                            System.out.println("有一道题重复!");
-                            break;
-                        }
-                        String oneA = sheet.getCell(col, 2).getContents();
-                        String oneB = sheet.getCell(col, 3).getContents();
-                        String oneC = sheet.getCell(col, 4).getContents();
-                        String oneD = sheet.getCell(col, 5).getContents();
-                        String oneE = sheet.getCell(col, 6).getContents();
-                        String oneF = sheet.getCell(col, 7).getContents();
-                        String oneAnswer = sheet.getCell(col, 8).getContents();
-                        String oneParse = sheet.getCell(col, 9).getContents();
-                        String oneLevel = sheet.getCell(col, 10).getContents();
-                        oneChoiceService.insertOneChoice(new OneChoice(id, oneText, oneA, oneB, oneC, oneD,
-                                oneE, oneF, oneAnswer, oneParse, oneLevel, fileId));
-                        break;
-                    case "多选题":
-                        System.out.println("我是多选题!");
-                        String moreText = sheet.getCell(col, 1).getContents();
-                        if(isCover && moreChoiceService.findMoreChoiceByText(moreText, fileId) != null) {
-                            System.out.println("有一道题重复!");
-                            break;
-                        }
-                        String moreA = sheet.getCell(col, 2).getContents();
-                        String moreB = sheet.getCell(col, 3).getContents();
-                        String moreC = sheet.getCell(col, 4).getContents();
-                        String moreD = sheet.getCell(col, 5).getContents();
-                        String moreE = sheet.getCell(col, 6).getContents();
-                        String moreF = sheet.getCell(col, 7).getContents();
-                        String moreAnswer = sheet.getCell(col, 8).getContents();
-                        String moreParse = sheet.getCell(col, 9).getContents();
-                        String moreLevel = sheet.getCell(col, 10).getContents();
-                        System.out.println("获取到的sourceid: " + fileId);
-                        moreChoiceService.insertMoreChoice(new MoreChoice(id, moreText, moreA, moreB, moreC, moreD, moreE,
-                                moreF, moreAnswer, moreParse, moreLevel, fileId));
-                        break;
-                    case "填空题":
-                        System.out.println("这是一道填空题");
-                        String completionText = sheet.getCell(col, 1).getContents();
-                        if(isCover && completionService.findCompletionByText(completionText, fileId) != null) {
-                            System.out.println("有一道题重复!");
-                            break;
-                        }
-                        String completionA = sheet.getCell(col, 2).getContents();
-                        String completionB = sheet.getCell(col, 3).getContents();
-                        String completionC = sheet.getCell(col, 4).getContents();
-                        String completionD = sheet.getCell(col, 5).getContents();
-                        String completionE = sheet.getCell(col, 6).getContents();
-                        String completionF = sheet.getCell(col, 7).getContents();
-                        String completionParse = sheet.getCell(col, 9).getContents();
-                        String completionLevel = sheet.getCell(col, 10).getContents();
-
-                        completionService.insertCompletion(new Completion(id, completionText, completionA, completionB,
-                                completionC, completionD, completionE, completionF, completionParse, completionLevel, fileId));
-                        break;
-                    case "主观题":
-                        System.out.println("这是一道简答题!");
-                        String answerQuestionText = sheet.getCell(col, 1).getContents();
-                        if(isCover && answerQuestionService.findAnswerQuestionByText(answerQuestionText, fileId) != null) {
-                            System.out.println("有一道题重复!");
-                            break;
-                        }
-                        String aqA = sheet.getCell(col, 2).getContents();
-                        String aqB = sheet.getCell(col, 3).getContents();
-                        String aqC = sheet.getCell(col, 4).getContents();
-                        String aqD = sheet.getCell(col, 5).getContents();
-                        String aqE = sheet.getCell(col, 6).getContents();
-                        String aqF = sheet.getCell(col, 7).getContents();
-                        String aqParse = sheet.getCell(col, 9).getContents();
-                        String aqLevel = sheet.getCell(col, 10).getContents();
-                        answerQuestionService.insertAnswerQuestion(new AnswerQuestion(id, answerQuestionText, aqA,
-                                aqB, aqC, aqD, aqE, aqF, aqParse, aqLevel, fileId));
-                        break;
-                    case "代码题":
-                        System.out.println("这是一道编码题！");
-                        String codeText = sheet.getCell(col, 1).getContents();
-                        if(isCover &&  codeQuestionService.findCodeQuestionByText(codeText, fileId)!= null) {
-                            System.out.println("有一道题重复!");
-                            break;
-                        }
-                        int count = 0;
-                        String codeAnswer = null;
-                        for (int i = 2; i <= 7; i++) {
-                            String content = sheet.getCell(col, i).getContents();
-                            if(!StringUtils.isEmpty(content) && !StringUtils.isAllBlank(content)) {
-                                count++;
-                                codeAnswer = content;
-                            }
-                        }
-
-                        if(count > 1) {
-                            throw new IllegalArgumentException("代码题只能有一个答案!");
-                        }
-                        String codeParse = sheet.getCell(col, 9).getContents();
-                        String codeLevel = sheet.getCell(col, 10).getContents();
-                        String codeType = sheet.getCell(col, 11).getContents();
-                        codeQuestionService.insertCodeQuestion(new CodeQuestion(id, codeText, codeAnswer, codeParse, codeLevel, codeType, fileId));
-                        break;
-                    case "是非题":
-                    case "数值题":
-                        break;
-
-                    default:
-                        throw new IllegalArgumentException("没有这个题型！");
+                //同时需要向题库_题联系表中增加一条记录
+                String questionText = sheet.getCell(col, 1).getContents();
+                if (isCover && questionService.findQuestionByText(questionText, fileId, questionType) != null) {
+                    System.out.println("有一道题重复!");
+                    break;
                 }
+                String questionA = sheet.getCell(col, 2).getContents();
+                String questionB = sheet.getCell(col, 3).getContents();
+                String questionC = sheet.getCell(col, 4).getContents();
+                String questionD = sheet.getCell(col, 5).getContents();
+                String questionE = sheet.getCell(col, 6).getContents();
+                String questionF = sheet.getCell(col, 7).getContents();
+                String questionAnswer = sheet.getCell(col, 8).getContents();
+                String questionParse = sheet.getCell(col, 9).getContents();
+                String questionLevel = sheet.getCell(col, 10).getContents();
+                String lType = sheet.getCell(col, 11).getContents();
+                questionService.insertQuestion(new Question(id, questionText, questionA, questionB, questionC, questionD,
+                        questionE, questionF, questionAnswer, questionParse, questionLevel, questionType, lType, fileId));
             }
         } catch (IOException | BiffException e) {
             e.printStackTrace();
