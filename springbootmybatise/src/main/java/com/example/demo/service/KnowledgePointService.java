@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.Cell;
 import com.example.demo.entity.KnowledgePoint;
-import com.example.demo.entity.TreeContent;
+import com.example.demo.entity.Point;
 import com.example.demo.mapper.KnowledgePointMapper;
 import com.example.demo.utils.JxlExcel;
 import com.example.demo.utils.MyTree;
@@ -25,7 +25,7 @@ public final class KnowledgePointService {
     @Autowired
     private KnowledgePointMapper mapper;
 
-    public void uploadFileKnowledge(File file, String knowledgeId) {
+    void uploadFileKnowledge(File file, String knowledgeId) {
         // MyFile myFile = ResultMap.uploadFile(file, path, courseId);
 
         // File destFile = new File(myFile.getFileAbsolutePath());
@@ -183,9 +183,9 @@ public final class KnowledgePointService {
     }
 
     // 读取数据库数据，返回前台
-    private TreeContent readDatabase(String knowledgeId, List<KnowledgePoint> list) {
+    Point readDatabase(String knowledgeId) {
         // 获取所有知识点
-        // List<KnowledgePoint> list = mapper.findAll(knowledgeId);
+        List<KnowledgePoint> list = mapper.findAll(knowledgeId);
         // 得到根结点
         KnowledgePoint root = null;
         for (KnowledgePoint knowledgePoint : list) {
@@ -195,20 +195,59 @@ public final class KnowledgePointService {
             }
         }
         assert root != null : "没有根结点";
-        TreeContent tree = new TreeContent(root.getContent(), new ArrayList<>());
+        Point tree = new Point(root, new ArrayList<>());
         read(tree, list, root);
         return tree;
     }
 
-    private void read(TreeContent node, List<KnowledgePoint> list, KnowledgePoint knowledgePoint) {
+    private void read(Point node, List<KnowledgePoint> list, KnowledgePoint knowledgePoint) {
         String rootPath = knowledgePoint.getPath();
         for (KnowledgePoint point : list) {
             if (point.getPath().equals(rootPath + "/" + point.getId())) {
-                TreeContent nextNode = new TreeContent(point.getContent(), new ArrayList<>());
-                node.contents.add(nextNode);
+                Point nextNode = new Point(point, new ArrayList<>());
+                node.getNodes().add(nextNode);
                 read(nextNode, list, point);
             }
         }
+    }
+
+    private boolean findTreePath(String path) {
+        return mapper.findTreePath(path) == null;
+    }
+    
+    private void updateTreeRoot(Integer id, String knowledgeId) {
+        mapper.updateTreeRoot(id, knowledgeId);
+    }
+
+    void insertKnowledgeTreeNode(KnowledgePoint knowledgePoint, Integer rootId) {
+        if(findTreePath(knowledgePoint.getPath())) {
+            // 需要更新根节点 Id
+            updateTreeRoot(rootId, knowledgePoint.getKnowledgeId());
+            mapper.insertKnowledgeTreeNode(knowledgePoint);
+        }
+    }
+
+    void deleteTreeNode(Integer nodeId, String knowledgeId, boolean isRoot) {
+        // 删除该节点，及子结点
+
+        // 1. 首先判断是否为根结点，如果为根结点，直接删除整棵树
+        if(isRoot) {
+            mapper.deleteTree(knowledgeId);
+        }else {
+            // 2. 不为根结点，删除  path中 nodeId一定不在开头
+            // nodeId 为结尾 或者 nodeId为中间 比如 /1/2/3， /1/2， 1/2/3/4
+            // 删除 2 结点，就必须删除 3， 4 结点
+            List<KnowledgePoint> pointList = mapper.findAll(knowledgeId);
+            List<Integer> nodeIds = new ArrayList<>();
+            for (KnowledgePoint point : pointList) {
+                if(point.getPath().endsWith("/" + nodeId) || point.getPath().contains("/+" + nodeId +"/")) {
+                    nodeIds.add(point.getId());
+                }
+            }
+
+            mapper.deleteTreeNode(nodeIds, knowledgeId);
+        }
+
     }
 
     public static void main(String[] args) {
@@ -226,7 +265,13 @@ public final class KnowledgePointService {
         list.add(new KnowledgePoint(11, "/1/4/11", "这个好难", false, "1"));
         list.add(new KnowledgePoint(12, "/1/4/10/12", "明天会下雨", false, "1"));
 
-        TreeContent tree = new KnowledgePointService().readDatabase("1", list);
-        System.out.println(tree.toString());
+        //TreeContent tree = new KnowledgePointService().readDatabase("1");
+        //System.out.println(tree.toString());
+        for (KnowledgePoint point : list) {
+            if(point.getPath().endsWith("/2") || point.getPath().contains("/2/")) {
+                System.out.println("这是2结点");
+                System.out.println(point.getId() + "---" + point.getPath());
+            }
+        }
     }
 }

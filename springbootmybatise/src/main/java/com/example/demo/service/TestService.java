@@ -37,6 +37,12 @@ public class TestService {
     }
 
     // 自动组卷
+    // 1. 用户选择关于组卷的基本参数
+    // （1） 题目类型 - 及其题目数量
+    // （2） 每种类型 - 分数
+    // （3） 所涉及到的知识点
+    // 2. 当选择的知识点有子结点时，子结点对应的相关题目同样需要考虑
+
     public HashMap<String, Object> groupVolume(List<QuestionPoint> questionPointList, String sourceId, String testId) throws Exception {
         if(questionPointList == null) {
             throw new NullPointerException("组卷参数为空，无法自定组卷");

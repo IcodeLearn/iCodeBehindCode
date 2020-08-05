@@ -18,4 +18,17 @@
     <update id="updateKnowledge" parameterType="Knowledge">
         update knowledge set knowledge_name = #{knowledgeName} where knowledge_id = #{knowledgeId}
     </update>
+
+    <insert id="questionLinkToKnowledgePoint">
+        insert into question_link_knowledge (question_id, id)
+        values
+        <foreach collection="list" index="index" separator="," item="link">
+            <foreach collection="link.ids" index="index" separator="," item="item">
+                (
+                    #{link.questionId}, #{item}
+                )
+            </foreach>
+        </foreach>
+    </insert>
+
 </mapper>

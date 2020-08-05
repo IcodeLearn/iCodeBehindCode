@@ -22,7 +22,7 @@ public class QuestionService {
         mapper.insertQuestion(question);
     }
 
-    List<Question> findAllQuestionById(String sourceId) {
+    public List<Question> findAllQuestionById(String sourceId) {
         return mapper.findAllQuestionById(sourceId);
     }
 

@@ -1,538 +1,558 @@
-/*==============================================================*/
-/* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2020/7/12 21:26:21                           */
-/*==============================================================*/
-
-
-drop table if exists adult_children;
-
-drop table if exists adult_news;
-
-drop table if exists answerquestion;
-
-drop table if exists assitant_news;
-
-drop table if exists codequestion;
-
-drop table if exists completion;
-
-drop table if exists course;
-
-drop table if exists enclosure;
-
-drop table if exists homework;
-
-drop table if exists morechoice;
-
-drop table if exists news_bank;
-
-drop table if exists onechoice;
-
-drop table if exists permission;
-
-drop table if exists source_questiontype;
-
-drop table if exists questiontype;
-
-drop table if exists role;
-
-drop table if exists student_reply;
-
-drop table if exists test;
-
-drop table if exists test_questiontype;
-
-drop table if exists user;
-
-drop table if exists user_role_course;
-
-drop table if exists user_test;
-
-CREATE TABLE source
-(
-    source_id           nvarchar(255),
-
-    source_name         nvarchar(255),
-
-    source_type         nvarchar(255),
-
-    source_upload_time  NVARCHAR(255),
-
-    source_path         date,
-
-    course_id           nvarchar(255),
-
-    uid                  NVARCHAR(255),
-    PRIMARY key(source_id)
-);
-
-/*==============================================================*/
-/* Table: adult_children                                        */
-/*==============================================================*/
-create table adult_children
-(
-   adult_id             nvarchar(255) not null,
-   student_id           nvarchar(255) not null,
-   primary key (adult_id, student_id)
-);
-
-alter table adult_children comment '家长关联学生表：';
-
-/*==============================================================*/
-/* Table: adult_news                                            */
-/*==============================================================*/
-create table adult_news
-(
-   use_uid              nvarchar(255) not null,
-   new_news_id          nvarchar(255) not null,
-   adult_news_reply     date,
-   primary key (use_uid, new_news_id)
-);
-
-alter table adult_news comment '家长消息管理表
-家长回复时间：adult_news_reply';
-
-/*==============================================================*/
-/* Table: answerquestion                                        */
-/*==============================================================*/
-create table answerquestion
-(
-   aq_id                nvarchar(255) not null,
-   que_qid              nvarchar(255),
-   aq_text              nvarchar(255),
-   aq_answer            nvarchar(255),
-   aq_konw              nvarchar(255),
-   aq_level             nvarchar(255),
-   primary key (aq_id)
-);
-
-alter table answerquestion comment '简答题
-id : aq_id
-题目：aq_text
-答案：aq_answer
-                                   -&';
-
-/*==============================================================*/
-/* Table: assitant_news                                         */
-/*==============================================================*/
-create table assitant_news
-(
-   use_uid              nvarchar(255) not null,
-   new_news_id          nvarchar(255) not null,
-   assitant_news_begin  date,
-   primary key (use_uid, new_news_id)
-);
-
-alter table assitant_news comment '教师/助教-消息管理表
-发布问卷时间：assitant_news_begin
-';
-
-/*==============================================================*/
-/* Table: codequestion                                          */
-/*==============================================================*/
-create table codequestion
-(
-   code_id              nvarchar(255) not null,
-   que_qid              nvarchar(255),
-   code_text            nvarchar(255),
-   code_answer          nvarchar(255),
-   code_know            nvarchar(255),
-   code_level           nvarchar(255),
-   primary key (code_id)
-);
-
-alter table codequestion comment '代码题
-id: code_id
-题目：code_text
-答案：code_answe';
-
-/*==============================================================*/
-/* Table: completion                                            */
-/*==============================================================*/
-create table completion
-(
-   completion_id        nvarchar(255) not null,
-   que_qid              nvarchar(255),
-   completion_text      nvarchar(255),
-   completion_A         nvarchar(255),
-   completion_B         nvarchar(255),
-   completion_C         nvarchar(255),
-   completion_D         nvarchar(255),
-   completion_E         nvarchar(255),
-   completion_F         nvarchar(255),
-   completion_answer    nvarchar(255),
-   completion_kwon      nvarchar(255),
-   completion_level     nvarchar(255),
-   primary key (completion_id)
-);
-
-alter table completion comment '填空题
-id: completion_id
-题目：completion_text
-问';
-
-/*==============================================================*/
-/* Table: course                                                */
-/*==============================================================*/
-create table course
-(
-   course_id            nvarchar(255) not null,
-   use_uid              nvarchar(255),
-   que_qsid             nvarchar(255),
-   cname                nvarchar(30),
-   cintroduce           nvarchar(255),
-   code                 nvarchar(6),
-   cstate               int,
-   cyear                nvarchar(255),
-   primary key (course_id)
-);
-
-alter table course comment '课程id:course_id
-课程名称：course_name
-课程介绍：course_intr';
-
-/*==============================================================*/
-/* Table: enclosure                                             */
-/*==============================================================*/
-create table enclosure
-(
-   enclosure_id         nvarchar(255) not null,
-   hom_homework_id      nvarchar(255),
-   enclosure_name       nvarchar(30),
-   enclosure_type       nvarchar(10),
-   enclosure_path       nvarchar(255),
-   enclosure_time       nvarchar(255),
-   primary key (enclosure_id)
-);
-
-alter table enclosure comment '附件
-附件id:enclosure_id
-附件名称：enclosure_name
-附';
-
-/*==============================================================*/
-/* Table: homework                                              */
-/*==============================================================*/
-create table homework
-(
-   homework_id          nvarchar(255) not null,
-   cou_course_id        nvarchar(255),
-   homework_name        nvarchar(30),
-   homework_content     nvarchar(255),
-   homework_begin       date,
-   primary key (homework_id)
-);
-
-alter table homework comment '作业表
-作业id:homework_id
-作业名：homework_name
-作业内';
-
-/*==============================================================*/
-/* Table: morechoice                                            */
-/*==============================================================*/
-create table morechoice
-(
-   more_id              nvarchar(255) not null,
-   que_qid              nvarchar(255),
-   more_text            nvarchar(255),
-   more_A               nvarchar(255),
-   more_B               nvarchar(255),
-   more_C               nvarchar(255),
-   more_D               nvarchar(255),
-   more_E               nvarchar(255),
-   more_F               nvarchar(255),
-   more_answer          nvarchar(255),
-   more_know            nvarchar(255),
-   more_level           nvarchar(255),
-   primary key (more_id)
-);
-
-alter table morechoice comment '多选题
-多选题id：more_id
-多选题题目：more_text
-选项：more_';
-
-/*==============================================================*/
-/* Table: news_bank                                             */
-/*==============================================================*/
-create table news_bank
-(
-   news_id              nvarchar(255) not null,
-   news_title           nvarchar(255),
-   news_begin           date,
-   primary key (news_id)
-);
-
-alter table news_bank comment '消息
-消息id: news_id
-问卷标题：news_title
-';
-
-/*==============================================================*/
-/* Table: onechoice                                             */
-/*==============================================================*/
-create table onechoice
-(
-   one_id               nvarchar(255) not null,
-   que_qid              nvarchar(255),
-   one_text             nvarchar(255),
-   one_A                nvarchar(255),
-   one_B                nvarchar(255),
-   one_C                nvarchar(255),
-   one_D                nvarchar(255),
-   one_E                nvarchar(255),
-   one_F                nvarchar(255),
-   one_answer           nvarchar(255),
-   one_parse            nvarchar(255),
-   one_level            nvarchar(255),
-   primary key (one_id)
-);
-
-alter table onechoice comment '单选题
-题号：one_id
-
-题目：one_text
-选项 ：one_A';
-
-/*==============================================================*/
-/* Table: permission                                            */
-/*==============================================================*/
-create table permission
-(
-   pid                  nvarchar(255) not null,
-   role_name          nvarchar(255),
-   permission           nvarchar(255),
-   primary key (pid)
-);
-
-
-
-/*==============================================================*/
-/* Table: source_questiontype                            */
-/*==============================================================*/
-create table source_questiontype
-(
-   que_qid              nvarchar(255) not null,
-   que_qsid             nvarchar(255) not null,
-   primary key (que_qid, que_qsid)
-);
-
-alter table source_questiontype comment '题库与题的关系';
-
-/*==============================================================*/
-/* Table: questiontype                                          */
-/*==============================================================*/
-create table questiontype
-(
-   qid                  nvarchar(255) not null,
-   new_news_id          nvarchar(255),
-   qtype                nvarchar(255),
-   primary key (qid)
-);
-
-alter table questiontype comment '题
-题号id:qid
-题类型：qtype
-
-
-';
-
-/*==============================================================*/
-/* Table: role                                                  */
-/*==============================================================*/
-create table role
-(
-   role_id              nvarchar(255) not null,
-   role_name            nvarchar(255),
-   primary key (role_id)
-);
-
-/*==============================================================*/
-/* Table: student_reply                                         */
-/*==============================================================*/
-create table student_reply
-(
-   tes_test_id          nvarchar(255) not null,
-   que_qid              nvarchar(255) not null,
-   use_uid              nvarchar(255) not null,
-   reply                nvarchar(255),
-   primary key (tes_test_id, que_qid, use_uid)
-);
-
-alter table student_reply comment '学生答题情况
-1. 回答：reply';
-
-/*==============================================================*/
-/* Table: test                                                  */
-/*==============================================================*/
-create table test
-(
-   test_id              nvarchar(255) not null,
-   cou_course_id        nvarchar(255),
-   test_name            nvarchar(255),
-   test_time            date,
-   test_begin           date,
-   test_end             date,
-   primary key (test_id)
-);
-
-alter table test comment '测试id：test_id
-测试名：test_name
-测试时间：test_time
-';
-
-/*==============================================================*/
-/* Table: test_questiontype                                     */
-/*==============================================================*/
-create table test_questiontype
-(
-   tes_test_id          nvarchar(255) not null,
-   que_qid              nvarchar(255) not null,
-   primary key (tes_test_id, que_qid)
-);
-
-/*==============================================================*/
-/* Table: user                                                  */
-/*==============================================================*/
-create table user
-(
-   uid                  nvarchar(255) not null,
-   role_id          nvarchar(255),
-   uname                nvarchar(20),
-   utel                 nvarchar(11),
-   ugender              nvarchar(2),
-   upassword            nvarchar(255),
-   uwenvarchart             nvarchar(255),
-   primary key (uid)
-);
-
-alter table user comment '用户实体
-1. ID:uid
-2. 姓名：uname
-3. 手机号：utel
-                         -&';
-
-/*==============================================================*/
-/* Table: user_role_course                                      */
-/*==============================================================*/
-create table user_role_course
-(
-   role_name          nvarchar(255) not null,
-   use_uid              nvarchar(255) not null,
-   cou_course_id        nvarchar(255) not null,
-   primary key (role_name, use_uid, cou_course_id)
-);
-
-alter table user_role_course comment '用户的课程角色';
-
-/*==============================================================*/
-/* Table: user_test                                             */
-/*==============================================================*/
-create table user_test
-(
-   use_uid              nvarchar(255) not null,
-   tes_test_id          nvarchar(255) not null,
-   ut_grade             int,
-   ut_state             nvarchar(255),
-   ut_begin             date,
-   primary key (use_uid, tes_test_id)
-);
-
-alter table user_test comment '成绩：ut_grade
-状态：ut_state
-学生开始答题时间：ut_begin';
-
-alter table adult_news add constraint FK_adult_news foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table adult_news add constraint FK_adult_news2 foreign key (new_news_id)
-      references news_bank (news_id) on delete cascade on update cascade;
-
-alter table answerquestion add constraint FK_questiontype_answerquestion foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table assitant_news add constraint FK_assitant_news foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table assitant_news add constraint FK_assitant_news2 foreign key (new_news_id)
-      references news_bank (news_id) on delete cascade on update cascade;
-
-alter table codequestion add constraint FK_questiontype_codequestion foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table completion add constraint FK_questiontype_completion foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table course add constraint FK_course_source foreign key (que_qsid)
-      references source (source_id) on delete cascade on update cascade;
-
-alter table course add constraint FK_course_user foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table enclosure add constraint FK_homework_enclosure foreign key (hom_homework_id)
-      references homework (homework_id) on delete cascade on update cascade;
-
-alter table homework add constraint FK_course_homework foreign key (cou_course_id)
-      references course (course_id) on delete cascade on update cascade;
-
-alter table morechoice add constraint FK_question_morechoice foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table onechoice add constraint FK_questiontype_onechoice foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table permission add constraint FK_role_permission foreign key (role_name)
-      references role (role_id) on delete cascade on update cascade;
-
-
-alter table source_questiontype add constraint FK_source_questiontype foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table source_questiontype add constraint FK_source_questiontype2 foreign key (que_qsid)
-      references source (source_id) on delete cascade on update cascade;
-
-alter table questiontype add constraint FK_news_bank_questiontype foreign key (new_news_id)
-      references news_bank (news_id) on delete cascade on update cascade;
-
-alter table student_reply add constraint FK_student_reply foreign key (tes_test_id)
-      references test (test_id) on delete cascade on update cascade;
-
-alter table student_reply add constraint FK_student_reply2 foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table student_reply add constraint FK_student_reply3 foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table test add constraint FK_course_test foreign key (cou_course_id)
-      references course (course_id) on delete cascade on update cascade;
-
-alter table test_questiontype add constraint FK_test_questiontype foreign key (tes_test_id)
-      references test (test_id) on delete cascade on update cascade;
-
-alter table test_questiontype add constraint FK_test_questiontype2 foreign key (que_qid)
-      references questiontype (qid) on delete cascade on update cascade;
-
-alter table user add constraint FK_user_role foreign key (role_id)
-      references role (role_id) on delete cascade on update cascade;
-
-alter table user_role_course add constraint FK_user_role_course foreign key (role_name)
-      references role (role_id) on delete cascade on update cascade;
-
-alter table user_role_course add constraint FK_user_role_course2 foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table user_role_course add constraint FK_user_role_course3 foreign key (cou_course_id)
-      references course (course_id) on delete cascade on update cascade;
-
-alter table user_test add constraint FK_user_test foreign key (use_uid)
-      references user (uid) on delete cascade on update cascade;
-
-alter table user_test add constraint FK_user_test2 foreign key (tes_test_id)
-      references test (test_id) on delete cascade on update cascade;
-
-alter table source add constraint FK_source_course foreign key (course_id)
-      references course (course_id) on delete cascade on update cascade;
-
-   alter table source add constraint FK_source_user foreign key (uid)
-      references user (uid) on delete cascade on update cascade;
+-- MySQL dump 10.13  Distrib 5.7.16, for Win64 (x86_64)
+--
+-- Host: localhost    Database: icodedatabase
+-- ------------------------------------------------------
+-- Server version	5.7.16
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `adult_children`
+--
+
+DROP TABLE IF EXISTS `adult_children`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `adult_children` (
+  `adult_id` varchar(255) NOT NULL,
+  `student_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`adult_id`,`student_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='瀹堕暱鍏宠仈瀛︾敓琛?細';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `adult_children`
+--
+
+LOCK TABLES `adult_children` WRITE;
+/*!40000 ALTER TABLE `adult_children` DISABLE KEYS */;
+/*!40000 ALTER TABLE `adult_children` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `adult_news`
+--
+
+DROP TABLE IF EXISTS `adult_news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `adult_news` (
+  `use_uid` varchar(255) NOT NULL,
+  `new_news_id` varchar(255) NOT NULL,
+  `adult_news_reply` date DEFAULT NULL,
+  PRIMARY KEY (`use_uid`,`new_news_id`),
+  KEY `FK_adult_news2` (`new_news_id`),
+  CONSTRAINT `FK_adult_news` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_adult_news2` FOREIGN KEY (`new_news_id`) REFERENCES `news_bank` (`news_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='瀹堕暱娑堟伅绠＄悊琛?瀹堕暱鍥炲?鏃堕棿锛歛dult_news_reply';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `adult_news`
+--
+
+LOCK TABLES `adult_news` WRITE;
+/*!40000 ALTER TABLE `adult_news` DISABLE KEYS */;
+/*!40000 ALTER TABLE `adult_news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `assitant_news`
+--
+
+DROP TABLE IF EXISTS `assitant_news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `assitant_news` (
+  `use_uid` varchar(255) NOT NULL,
+  `new_news_id` varchar(255) NOT NULL,
+  `assitant_news_begin` date DEFAULT NULL,
+  PRIMARY KEY (`use_uid`,`new_news_id`),
+  KEY `FK_assitant_news2` (`new_news_id`),
+  CONSTRAINT `FK_assitant_news` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_assitant_news2` FOREIGN KEY (`new_news_id`) REFERENCES `news_bank` (`news_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='鏁欏笀/鍔╂暀-娑堟伅绠＄悊琛?鍙戝竷闂?嵎鏃堕棿锛歛ssitant_news_begin\n';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `assitant_news`
+--
+
+LOCK TABLES `assitant_news` WRITE;
+/*!40000 ALTER TABLE `assitant_news` DISABLE KEYS */;
+/*!40000 ALTER TABLE `assitant_news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `course`
+--
+
+DROP TABLE IF EXISTS `course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `course` (
+  `course_id` varchar(255) NOT NULL,
+  `use_uid` varchar(255) DEFAULT NULL,
+  `que_qsid` varchar(255) DEFAULT NULL,
+  `cname` varchar(30) DEFAULT NULL,
+  `cintroduce` varchar(255) DEFAULT NULL,
+  `code` varchar(6) DEFAULT NULL,
+  `cstate` int(11) DEFAULT NULL,
+  `cyear` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`course_id`),
+  KEY `FK_course_source` (`que_qsid`),
+  KEY `FK_course_user` (`use_uid`),
+  CONSTRAINT `FK_course_source` FOREIGN KEY (`que_qsid`) REFERENCES `source` (`source_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_course_user` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='璇剧▼id:course_id\n璇剧▼鍚嶇О锛歝ourse_name\n璇剧▼浠嬬粛锛歝ourse_intr';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `course`
+--
+
+LOCK TABLES `course` WRITE;
+/*!40000 ALTER TABLE `course` DISABLE KEYS */;
+INSERT INTO `course` VALUES ('1',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `enclosure`
+--
+
+DROP TABLE IF EXISTS `enclosure`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `enclosure` (
+  `enclosure_id` varchar(255) NOT NULL,
+  `hom_homework_id` varchar(255) DEFAULT NULL,
+  `enclosure_name` varchar(30) DEFAULT NULL,
+  `enclosure_type` varchar(10) DEFAULT NULL,
+  `enclosure_path` varchar(255) DEFAULT NULL,
+  `enclosure_time` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`enclosure_id`),
+  KEY `FK_homework_enclosure` (`hom_homework_id`),
+  CONSTRAINT `FK_homework_enclosure` FOREIGN KEY (`hom_homework_id`) REFERENCES `homework` (`homework_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='闄勪欢\n闄勪欢id:enclosure_id\n闄勪欢鍚嶇О锛歟nclosure_name\n闄';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `enclosure`
+--
+
+LOCK TABLES `enclosure` WRITE;
+/*!40000 ALTER TABLE `enclosure` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enclosure` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `homework`
+--
+
+DROP TABLE IF EXISTS `homework`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `homework` (
+  `homework_id` varchar(255) NOT NULL,
+  `cou_course_id` varchar(255) DEFAULT NULL,
+  `homework_name` varchar(30) DEFAULT NULL,
+  `homework_content` varchar(255) DEFAULT NULL,
+  `homework_begin` date DEFAULT NULL,
+  PRIMARY KEY (`homework_id`),
+  KEY `FK_course_homework` (`cou_course_id`),
+  CONSTRAINT `FK_course_homework` FOREIGN KEY (`cou_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='浣滀笟琛?浣滀笟id:homework_id\n浣滀笟鍚嶏細homework_name\n浣滀笟鍐';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `homework`
+--
+
+LOCK TABLES `homework` WRITE;
+/*!40000 ALTER TABLE `homework` DISABLE KEYS */;
+/*!40000 ALTER TABLE `homework` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `knowledge`
+--
+
+DROP TABLE IF EXISTS `knowledge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `knowledge` (
+  `knowledge_id` varchar(255) NOT NULL,
+  `knowledge_name` varchar(255) DEFAULT NULL,
+  `course_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`knowledge_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `knowledge`
+--
+
+LOCK TABLES `knowledge` WRITE;
+/*!40000 ALTER TABLE `knowledge` DISABLE KEYS */;
+INSERT INTO `knowledge` VALUES ('e6209162-c36e-49b2-8250-25a9c850d2d8','这是一次测试','1');
+/*!40000 ALTER TABLE `knowledge` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `knowledge_point`
+--
+
+DROP TABLE IF EXISTS `knowledge_point`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `knowledge_point` (
+  `id` int(11) NOT NULL,
+  `path` varchar(255) DEFAULT NULL,
+  `content` varchar(255) DEFAULT NULL,
+  `is_root` tinyint(1) DEFAULT NULL,
+  `knowledge_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `knowledge_point`
+--
+
+LOCK TABLES `knowledge_point` WRITE;
+/*!40000 ALTER TABLE `knowledge_point` DISABLE KEYS */;
+INSERT INTO `knowledge_point` VALUES (2,'/1/2','知识点一',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(3,'/1/3','知识点二',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(4,'/1/4','知识点三',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(5,'/1/2/5','人为什么会死',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(6,'/1/2/6','人来自于哪里',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(7,'/1/3/7','缺铁吃铁',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(8,'/1/4/8','美丽新世界',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(9,'/1/4/9','你好',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(10,'/1/4/10','天气挺好',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(11,'/1/4/11','这个好难',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(12,'/1/4/10/12','明天会下雨',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(13,'/1/4/10/13','今天不会下雨',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(14,'/1/4/10/12/14','今天是晴天',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(15,'/1/4/10/12/15','今天不用带伞',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(16,'/1/4/10/13/16','明天记得带伞',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(17,'/1/4/10/12/15/17','阳光明媚',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(18,'/1/18','知识点四',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(19,'/1','root',1,'e6209162-c36e-49b2-8250-25a9c850d2d8');
+/*!40000 ALTER TABLE `knowledge_point` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `news_bank`
+--
+
+DROP TABLE IF EXISTS `news_bank`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news_bank` (
+  `news_id` varchar(255) NOT NULL,
+  `news_title` varchar(255) DEFAULT NULL,
+  `news_begin` date DEFAULT NULL,
+  PRIMARY KEY (`news_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='娑堟伅\n娑堟伅id: news_id\n闂?嵎鏍囬?锛歯ews_title\n';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `news_bank`
+--
+
+LOCK TABLES `news_bank` WRITE;
+/*!40000 ALTER TABLE `news_bank` DISABLE KEYS */;
+/*!40000 ALTER TABLE `news_bank` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `permission`
+--
+
+DROP TABLE IF EXISTS `permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission` (
+  `pid` varchar(255) NOT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
+  `permission` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`pid`),
+  KEY `FK_role_permission` (`role_name`),
+  CONSTRAINT `FK_role_permission` FOREIGN KEY (`role_name`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `permission`
+--
+
+LOCK TABLES `permission` WRITE;
+/*!40000 ALTER TABLE `permission` DISABLE KEYS */;
+/*!40000 ALTER TABLE `permission` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `question`
+--
+
+DROP TABLE IF EXISTS `question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question` (
+  `question_id` varchar(255) NOT NULL,
+  `question_text` varchar(255) DEFAULT NULL,
+  `question_A` varchar(255) DEFAULT NULL,
+  `question_B` varchar(255) DEFAULT NULL,
+  `question_C` varchar(255) DEFAULT NULL,
+  `question_D` varchar(255) DEFAULT NULL,
+  `question_E` varchar(255) DEFAULT NULL,
+  `question_F` varchar(255) DEFAULT NULL,
+  `question_answer` varchar(255) DEFAULT NULL,
+  `question_level` varchar(255) DEFAULT NULL,
+  `question_parse` varchar(255) DEFAULT NULL,
+  `question_type` varchar(255) DEFAULT NULL,
+  `l_type` varchar(255) DEFAULT NULL,
+  `source_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`question_id`),
+  KEY `FK_question_source` (`source_id`),
+  CONSTRAINT `FK_question_source` FOREIGN KEY (`source_id`) REFERENCES `source` (`source_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `question`
+--
+
+LOCK TABLES `question` WRITE;
+/*!40000 ALTER TABLE `question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `question_link_knowledge`
+--
+
+DROP TABLE IF EXISTS `question_link_knowledge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question_link_knowledge` (
+  `question_id` varchar(255) DEFAULT NULL,
+  `id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `question_link_knowledge`
+--
+
+LOCK TABLES `question_link_knowledge` WRITE;
+/*!40000 ALTER TABLE `question_link_knowledge` DISABLE KEYS */;
+INSERT INTO `question_link_knowledge` VALUES ('123',1),('123',2),('123',3),('456',1),('456',2),('456',3);
+/*!40000 ALTER TABLE `question_link_knowledge` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role`
+--
+
+DROP TABLE IF EXISTS `role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role` (
+  `role_id` varchar(255) NOT NULL,
+  `role_name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role`
+--
+
+LOCK TABLES `role` WRITE;
+/*!40000 ALTER TABLE `role` DISABLE KEYS */;
+INSERT INTO `role` VALUES ('63409f78-6cf5-46b6-8787-41971e4d37fc','ROLE_teacher');
+/*!40000 ALTER TABLE `role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `source`
+--
+
+DROP TABLE IF EXISTS `source`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `source` (
+  `source_id` varchar(255) NOT NULL,
+  `source_name` varchar(255) DEFAULT NULL,
+  `source_type` varchar(255) DEFAULT NULL,
+  `source_upload_time` date DEFAULT NULL,
+  `source_path` varchar(255) DEFAULT NULL,
+  `course_id` varchar(255) DEFAULT NULL,
+  `uid` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`source_id`),
+  KEY `FK_source_course` (`course_id`),
+  KEY `FK_source_user` (`uid`),
+  CONSTRAINT `FK_source_course` FOREIGN KEY (`course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_source_user` FOREIGN KEY (`uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `source`
+--
+
+LOCK TABLES `source` WRITE;
+/*!40000 ALTER TABLE `source` DISABLE KEYS */;
+/*!40000 ALTER TABLE `source` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test`
+--
+
+DROP TABLE IF EXISTS `test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `test` (
+  `test_id` varchar(255) NOT NULL,
+  `cou_course_id` varchar(255) DEFAULT NULL,
+  `test_name` varchar(255) DEFAULT NULL,
+  `test_time` int(11) DEFAULT NULL,
+  `test_begin` date DEFAULT NULL,
+  `test_end` date DEFAULT NULL,
+  PRIMARY KEY (`test_id`),
+  KEY `FK_course_test` (`cou_course_id`),
+  CONSTRAINT `FK_course_test` FOREIGN KEY (`cou_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='娴嬭瘯id锛歵est_id\n娴嬭瘯鍚嶏細test_name\n娴嬭瘯鏃堕棿锛歵est_time\n';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test`
+--
+
+LOCK TABLES `test` WRITE;
+/*!40000 ALTER TABLE `test` DISABLE KEYS */;
+/*!40000 ALTER TABLE `test` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test_question`
+--
+
+DROP TABLE IF EXISTS `test_question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `test_question` (
+  `test_id` varchar(255) NOT NULL,
+  `question_id` varchar(255) DEFAULT NULL,
+  `grade` int(11) DEFAULT NULL,
+  KEY `FK_question_test1` (`test_id`),
+  KEY `FK_question_test2` (`question_id`),
+  CONSTRAINT `FK_question_test1` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_question_test2` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test_question`
+--
+
+LOCK TABLES `test_question` WRITE;
+/*!40000 ALTER TABLE `test_question` DISABLE KEYS */;
+/*!40000 ALTER TABLE `test_question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `uid` varchar(255) NOT NULL,
+  `role_id` varchar(255) DEFAULT NULL,
+  `uname` varchar(20) DEFAULT NULL,
+  `utel` varchar(11) DEFAULT NULL,
+  `ugender` varchar(2) DEFAULT NULL,
+  `upassword` varchar(255) DEFAULT NULL,
+  `uwenvarchart` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`uid`),
+  KEY `FK_user_role` (`role_id`),
+  CONSTRAINT `FK_user_role` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='鐢ㄦ埛瀹炰綋\n1. ID:uid\n2. 濮撳悕锛歶name\n3. 鎵嬫満鍙凤細utel\n                         -&';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('69e0299c-0998-41af-9a87-6a200d219bd6','63409f78-6cf5-46b6-8787-41971e4d37fc','test','xxxx',NULL,'$2a$10$7PwKC3xIOtTDM4yc89r4WOpnSdIUN/lm5Ki22fKHjPMfO98eK7bfq',NULL);
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_role_course`
+--
+
+DROP TABLE IF EXISTS `user_role_course`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_role_course` (
+  `role_name` varchar(255) NOT NULL,
+  `use_uid` varchar(255) NOT NULL,
+  `cou_course_id` varchar(255) NOT NULL,
+  PRIMARY KEY (`role_name`,`use_uid`,`cou_course_id`),
+  KEY `FK_user_role_course2` (`use_uid`),
+  KEY `FK_user_role_course3` (`cou_course_id`),
+  CONSTRAINT `FK_user_role_course` FOREIGN KEY (`role_name`) REFERENCES `role` (`role_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_user_role_course2` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_user_role_course3` FOREIGN KEY (`cou_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='鐢ㄦ埛鐨勮?绋嬭?鑹';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_role_course`
+--
+
+LOCK TABLES `user_role_course` WRITE;
+/*!40000 ALTER TABLE `user_role_course` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_role_course` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_test`
+--
+
+DROP TABLE IF EXISTS `user_test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_test` (
+  `use_uid` varchar(255) NOT NULL,
+  `tes_test_id` varchar(255) NOT NULL,
+  `ut_grade` int(11) DEFAULT NULL,
+  `ut_state` varchar(255) DEFAULT NULL,
+  `ut_begin` date DEFAULT NULL,
+  PRIMARY KEY (`use_uid`,`tes_test_id`),
+  KEY `FK_user_test2` (`tes_test_id`),
+  CONSTRAINT `FK_user_test` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_user_test2` FOREIGN KEY (`tes_test_id`) REFERENCES `test` (`test_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='鎴愮哗锛歶t_grade\n鐘舵?锛歶t_state\n瀛︾敓寮??绛旈?鏃堕棿锛歶t_begin';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_test`
+--
+
+LOCK TABLES `user_test` WRITE;
+/*!40000 ALTER TABLE `user_test` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_test` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-08-05 22:48:02

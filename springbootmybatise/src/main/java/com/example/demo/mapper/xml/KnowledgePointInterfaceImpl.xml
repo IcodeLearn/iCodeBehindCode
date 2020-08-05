@@ -16,4 +16,19 @@
     <select id="findAll" parameterType="string" resultType="KnowledgePoint">
         select * from knowledge_point where knowledge_id = #{id}
     </select>
+
+    <select id="findTreePath" parameterType="string" resultType="string">
+        select path from knowledge_point where path = #{path}
+    </select>
+
+    <insert id="insertKnowledgeTreeNode" parameterType="KnowledgePoint">
+        insert into knowledge_point
+        (id, path, content, is_root, knowledge_id)
+        values
+        (#{id}, #{path}, #{content}, false, #{knowledgeId})
+    </insert>
+
+    <update id="updateTreeRoot">
+        update knowledge_point set id = #{id} where is_root = 1 and knowledge_id = #{knowledgeId}
+    </update>
 </mapper>
