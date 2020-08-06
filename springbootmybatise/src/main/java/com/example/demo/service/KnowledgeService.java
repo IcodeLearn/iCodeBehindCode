@@ -71,6 +71,8 @@ public class KnowledgeService {
             // 上传文件
             // 更新Redis数据库记录
 
+            deleteKnowledge(knowledge.getKnowledgeId());
+            //insertKnowledge(uploadFile, id, name);
             return null;
         }
         return null;
