@@ -50,6 +50,21 @@ public class Question {
         this.sourceId = sourceId;
     }
 
+    public Question(String questionId, String questionText, String questionA, String questionB, String questionC, String questionD, String questionE, String questionF, String questionLevel, String questionType, String lType, String sourceId) {
+        this.questionId = questionId;
+        this.questionText = questionText;
+        this.questionA = questionA;
+        this.questionB = questionB;
+        this.questionC = questionC;
+        this.questionD = questionD;
+        this.questionE = questionE;
+        this.questionF = questionF;
+        this.questionLevel = questionLevel;
+        this.questionType = questionType;
+        this.lType = lType;
+        this.sourceId = sourceId;
+    }
+
     public String getQuestionId() {
         return questionId;
     }

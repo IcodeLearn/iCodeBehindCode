@@ -3,16 +3,46 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.TestMapper">
+    <sql id="queryTest">
+         select question_id from test_question where
+    </sql>
+
+    <sql id="orderBy">
+        order by field(question_type,
+        <foreach collection="sortBy" separator="," index="index" item="item">
+            #{item}
+        </foreach> )
+    </sql>
+    
     <select id="findTestAllQuestion" parameterType="string" resultType="Question">
         select * from question where question_id
         in
-        (select question_id from test_question where test_id = #{testId})
+        (<include refid="queryTest"/> test_id = #{testId})
+        <include refid="orderBy"/>
+    </select>
+
+
+    <select id="isExistQuestion" parameterType="string" resultType="boolean">
+        select count(1) from test_question where test_id = #{testId}
     </select>
 
     <insert id="insertTestQuestion">
-        insert into test_question (test_id, question_id, grade)
+        insert into test_question (test_id, question_id)
         values
-        (#{testId}, #{questionId}, #{point})
+        (#{testId}, #{questionId})
+    </insert>
+
+    <insert id="insertBatchTestQuestion">
+        insert into test_question (test_id, question_id)
+        values
+        <foreach collection="list" separator="," index="index" item="item">
+            (#{testId}, #{item})
+        </foreach>
+    </insert>
+
+    <insert id="createTest" parameterType="Test">
+        insert into test(test_name, test_time, test_begin, test_end)
+        values (#{testName}, #{testTime}, #{testBegin}, #{testEnd})
     </insert>
 
     <select id="findTestAllQuestionByType" resultType="Question">

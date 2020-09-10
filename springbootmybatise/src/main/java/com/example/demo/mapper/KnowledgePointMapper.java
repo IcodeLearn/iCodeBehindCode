@@ -25,4 +25,6 @@ public interface KnowledgePointMapper {
 
     void deleteTree(String knowledgeId);
 
+    List<Integer> getChild(@Param("id") String knowledgeId,
+                           @Param("regx") String regx);
 }

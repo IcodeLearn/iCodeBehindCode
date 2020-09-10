@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.StudentMapper">
+
+    <sql id="orderBy">
+        order by field(question_type,
+        <foreach collection="sortBy" separator="," index="index" item="item">
+            #{item}
+        </foreach> )
+    </sql>
+
+    <select id="studentGetAllQuestionById" resultType="Question">
+        select question_id, question_text, question_A, question_B, question_C, question_D, question_E, question_F,
+        question_level, question_type, l_type
+        from question where question_id in  ( <include refid="queryTest"></include>
+        test_id = #{testId} )
+        <include refid="orderBy"></include>
+    </select>
+</mapper>

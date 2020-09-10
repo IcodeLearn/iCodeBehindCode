@@ -250,6 +250,10 @@ public final class KnowledgePointService {
 
     }
 
+    public List<Integer> getChild(String id, String regx) {
+        return mapper.getChild(id, regx);
+    }
+
     public static void main(String[] args) {
         List<KnowledgePoint> list = new ArrayList<>();
         list.add(new KnowledgePoint(1, "/1", null, true, "1"));

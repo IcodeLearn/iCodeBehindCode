@@ -12,12 +12,17 @@ public class QuestionPoint {
     private Integer count;
 
     // 可选参数、知识点Id
-    List<Integer> ids;
+    private List<Integer> ids;
 
-    public QuestionPoint(String questionType, Integer point, Integer count) {
+    public QuestionPoint(String questionType, Integer point, Integer count, List<Integer> ids) {
         this.questionType = questionType;
         this.point = point;
         this.count = count;
+        this.ids = ids;
+    }
+
+    public List<Integer> getIds() {
+        return ids;
     }
 
     public String getQuestionType() {

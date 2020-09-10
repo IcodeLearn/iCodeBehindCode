@@ -14,9 +14,13 @@ public interface TestMapper {
 
     List<Test> findAllTest(String courseId);
 
-    List<Question> findTestAllQuestion(String testId);
+    List<Question> findTestAllQuestion(@Param("testId") String testId, @Param("sortBy")List<String> sortBy);
 
-    void insertTestQuestion(@Param("testId") String testId, @Param("QuestionId") String questionId, @Param("point") int point);
+    void insertTestQuestion(@Param("testId") String testId, @Param("QuestionId") String questionId);
 
-    List<Question> findTestAllQuestionByType(@Param("testId") String testId, @Param("type") String questionType);
+   // List<Question> findTestAllQuestionByType(@Param("testId") String testId, @Param("type") String questionType);
+
+    void insertBatchTestQuestion(@Param("list") List<Integer> list, @Param("testId") String testId);
+
+    boolean isExistQuestion(String testId);
 }

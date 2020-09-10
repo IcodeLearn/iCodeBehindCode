@@ -17,7 +17,6 @@ public class SourceController {
     @Autowired
     private SourceService sourceService;
 
-
     @PostMapping("/teacher/source")
     public HashMap<String, Object> createSource(MultipartFile uploadFile, @Param("courseId") String courseId, @Param("uid") String uid) {
         return sourceService.createSource(uploadFile, courseId, uid);

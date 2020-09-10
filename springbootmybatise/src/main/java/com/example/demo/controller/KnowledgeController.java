@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Knowledge;
 import com.example.demo.entity.KnowledgePoint;
+import com.example.demo.entity.QuestionLinkPoint;
 import com.example.demo.service.KnowledgeService;
 import com.example.demo.utils.ResultMap;
 import org.apache.ibatis.annotations.Param;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 
 @RestController
 public class KnowledgeController {
@@ -47,5 +49,10 @@ public class KnowledgeController {
     @GetMapping("/user/test")
     public HashMap<String, Object> test() {
         return ResultMap.setResult("200", new Knowledge("1", "test", "1"), null);
+    }
+
+    @PostMapping("/teacher/questions_knowledgePoint")
+    public void questionLinkToKnowledgePoint(@RequestBody List<QuestionLinkPoint> links) {
+        service.questionLinkToKnowledgePoint(links);
     }
 }

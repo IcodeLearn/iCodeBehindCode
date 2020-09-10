@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.*;
+import com.example.demo.entity.Question;
+import com.example.demo.entity.Source;
 import com.example.demo.mapper.SourceMapper;
 import com.example.demo.utils.MyStringUtil;
 import com.example.demo.utils.ResultMap;
@@ -13,12 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -105,9 +104,9 @@ public class SourceService {
         try {
             Workbook workbook = Workbook.getWorkbook(file);
             Sheet sheet = workbook.getSheet(0);
-            System.out.println(sheet.getColumns());
+            System.out.println("列数：" + sheet.getColumns());
             int columns = sheet.getColumns();
-            for (int col = 1; col < columns; col++) {
+            for (int col = 1; col < columns && !StringUtils.isAllBlank(sheet.getCell(col, 0).getContents()) && !StringUtils.isEmpty(sheet.getCell(col, 0).getContents()); col++) {
 
                 // 获取题型
                 Cell cell = sheet.getCell(col, 0);
@@ -115,7 +114,7 @@ public class SourceService {
                 System.out.println("type: " + questionType);
                 if(!questionType.equals("单选题") && !questionType.equals("多选题") && !questionType.equals("填空题") && !questionType.equals("简答题") &&
                         !questionType.equals("判断题") && !questionType.equals("代码题")) {
-                    throw new IllegalArgumentException("错误的题型输入！");
+                    throw new IllegalArgumentException("错误的题型输入！" + questionType);
                 }
                 // 生成一个随机ID
                 String id = UUID.randomUUID().toString();

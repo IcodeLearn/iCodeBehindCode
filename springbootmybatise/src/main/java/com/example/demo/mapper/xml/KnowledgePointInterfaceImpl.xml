@@ -31,4 +31,8 @@
     <update id="updateTreeRoot">
         update knowledge_point set id = #{id} where is_root = 1 and knowledge_id = #{knowledgeId}
     </update>
+
+    <select id="getChild"  resultType="int">
+        select id from knowledge_point where knowledge_id = #{id} path regexp #{regx};
+    </select>
 </mapper>

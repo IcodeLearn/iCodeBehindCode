@@ -99,6 +99,7 @@ public class KnowledgeService {
         // 1. 一道题可以对应多个知识点
         // 2. questionId -> (kid1, kid2, kid3)
         mapper.questionLinkToKnowledgePoint(links);
+
     }
 
     public static void main(String[] args) {

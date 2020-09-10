@@ -15,4 +15,5 @@ public class JWTAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.getWriter().write(ResultMap.setResult("403", null, "出现错误").toString());
     }
+
 }

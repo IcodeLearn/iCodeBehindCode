@@ -1,14 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.entity.Question;
 import com.example.demo.entity.QuestionPoint;
 import com.example.demo.entity.Test;
 import com.example.demo.service.TestService;
 import com.example.demo.utils.ResultMap;
+import com.example.demo.vo.VoQuestionPoint;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,12 +35,14 @@ public class TestController {
     }
 
     @PostMapping("/teacher/auto_test")
-    public HashMap<String, Object> groupVolume(List<QuestionPoint> questionPointList, String sourceId, String testId) {
+    public HashMap<String, Object> groupVolume(@RequestBody VoQuestionPoint voQuestionPoint) {
         try {
-            return testService.groupVolume(questionPointList, sourceId, testId);
+            return testService.groupVolume(voQuestionPoint.getQuestionPointList(), voQuestionPoint.getSourceId(),
+                    voQuestionPoint.getTestId(), voQuestionPoint.getKnowledgeId(), voQuestionPoint.isNeedKnowledge());
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMap.setResult("400", null, e.getMessage());
         }
     }
+
 }

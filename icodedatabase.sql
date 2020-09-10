@@ -204,7 +204,7 @@ CREATE TABLE `knowledge` (
 
 LOCK TABLES `knowledge` WRITE;
 /*!40000 ALTER TABLE `knowledge` DISABLE KEYS */;
-INSERT INTO `knowledge` VALUES ('e6209162-c36e-49b2-8250-25a9c850d2d8','这是一次测试','1');
+INSERT INTO `knowledge` VALUES ('3e6f51d2-2edd-4801-8eed-051b1cf8b671','这是一次测试','1');
 /*!40000 ALTER TABLE `knowledge` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -231,7 +231,7 @@ CREATE TABLE `knowledge_point` (
 
 LOCK TABLES `knowledge_point` WRITE;
 /*!40000 ALTER TABLE `knowledge_point` DISABLE KEYS */;
-INSERT INTO `knowledge_point` VALUES (2,'/1/2','知识点一',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(3,'/1/3','知识点二',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(4,'/1/4','知识点三',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(5,'/1/2/5','人为什么会死',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(6,'/1/2/6','人来自于哪里',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(7,'/1/3/7','缺铁吃铁',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(8,'/1/4/8','美丽新世界',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(9,'/1/4/9','你好',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(10,'/1/4/10','天气挺好',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(11,'/1/4/11','这个好难',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(12,'/1/4/10/12','明天会下雨',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(13,'/1/4/10/13','今天不会下雨',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(14,'/1/4/10/12/14','今天是晴天',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(15,'/1/4/10/12/15','今天不用带伞',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(16,'/1/4/10/13/16','明天记得带伞',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(17,'/1/4/10/12/15/17','阳光明媚',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(18,'/1/18','知识点四',0,'e6209162-c36e-49b2-8250-25a9c850d2d8'),(19,'/1','root',1,'e6209162-c36e-49b2-8250-25a9c850d2d8');
+INSERT INTO `knowledge_point` VALUES (2,'/1/2','知识点一',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(3,'/1/3','知识点二',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(4,'/1/4','知识点三',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(5,'/1/2/5','人为什么会死',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(6,'/1/2/6','人来自于哪里',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(7,'/1/3/7','缺铁吃铁',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(8,'/1/4/8','美丽新世界',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(9,'/1/4/9','你好',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(10,'/1/4/10','天气挺好',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(11,'/1/4/11','这个好难',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(12,'/1/4/10/12','明天会下雨',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(13,'/1/4/10/13','今天不会下雨',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(14,'/1/4/10/12/14','今天是晴天',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(15,'/1/4/10/12/15','今天不用带伞',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(16,'/1/4/10/13/16','明天记得带伞',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(17,'/1/4/10/12/15/17','阳光明媚',0,'3e6f51d2-2edd-4801-8eed-051b1cf8b671'),(18,'/1','root',1,'3e6f51d2-2edd-4801-8eed-051b1cf8b671');
 /*!40000 ALTER TABLE `knowledge_point` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -319,6 +319,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
+INSERT INTO `question` VALUES ('04be661a-7f78-4fd0-b8de-83293be2275e','裤子的尺码（比方说腰围），标注的是75厘米，但是实际有3%的误差，那么实际是多少厘米？','72.75','77.25','','','','','','易','误差的概念','判断题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5'),('2227bd19-e390-499c-a61f-59240800b2d9','1+1等于几？','2','3','4','2.5','','','A','易','','单选题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5'),('409f1578-c978-4b8d-8b75-b25914f99483','求绝对值为1的数字','1','-1','','','','','','易','绝对值的定义','填空题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5'),('91fe09ab-d45b-4421-a635-6be8511a4185','下面是Java基本类型的是？','Integer','long','Boolean','Double','','','A','易','long是基本类型，其余为包装类型','单选题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5'),('bb8b458e-15b6-4fef-a1d2-33cc9127d5d5','影响消费的因素有哪些?','收入是消费的基础和前提','未来收入预期也会影响居民的消费水平','收入差距的大小影响社会总体消费水平','物价的变动会影响人们的购买能力','广告和国家经济政策等','','','中','收入(当前、未来和差距)+物价+其他因素','简答题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5'),('eb0d7b51-63d0-421e-b107-249605df3680','江苏的城市','南京','无锡','昆山','苏州','常州','','ABCDE','易','长三角城市群','多选题','','3c1cb9d0-4275-4834-8524-c3d01e2471c5');
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -341,7 +342,6 @@ CREATE TABLE `question_link_knowledge` (
 
 LOCK TABLES `question_link_knowledge` WRITE;
 /*!40000 ALTER TABLE `question_link_knowledge` DISABLE KEYS */;
-INSERT INTO `question_link_knowledge` VALUES ('123',1),('123',2),('123',3),('456',1),('456',2),('456',3);
 /*!40000 ALTER TABLE `question_link_knowledge` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -355,6 +355,7 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `role_id` varchar(255) NOT NULL,
   `role_name` varchar(255) DEFAULT NULL,
+  `role_ZN` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -365,7 +366,7 @@ CREATE TABLE `role` (
 
 LOCK TABLES `role` WRITE;
 /*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES ('63409f78-6cf5-46b6-8787-41971e4d37fc','ROLE_teacher');
+INSERT INTO `role` VALUES ('576c79bd-bcd0-4064-b5e4-486f033eade3','ROLE_teacher','教师'),('7084badf-b314-42ac-8feb-b1499f6de8ec','ROLE_adult','家长'),('f09d6c21-4694-4b9b-913a-f4dc51fe19f3','ROLE_student','学生');
 /*!40000 ALTER TABLE `role` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,6 +399,7 @@ CREATE TABLE `source` (
 
 LOCK TABLES `source` WRITE;
 /*!40000 ALTER TABLE `source` DISABLE KEYS */;
+INSERT INTO `source` VALUES ('3c1cb9d0-4275-4834-8524-c3d01e2471c5','25a876a7-d0ff-4db6-9e49-aa6da8cc90c4question.xls','xls','2020-09-08','src/main/resources/static/questionbank/5c472d7f-ad6b-4d1a-a6a4-a5d7ce5181d3','1','5c472d7f-ad6b-4d1a-a6a4-a5d7ce5181d3');
 /*!40000 ALTER TABLE `source` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -409,16 +411,13 @@ DROP TABLE IF EXISTS `test`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `test` (
-  `test_id` varchar(255) NOT NULL,
-  `cou_course_id` varchar(255) DEFAULT NULL,
+  `test_id` int(11) NOT NULL AUTO_INCREMENT,
   `test_name` varchar(255) DEFAULT NULL,
   `test_time` int(11) DEFAULT NULL,
   `test_begin` date DEFAULT NULL,
   `test_end` date DEFAULT NULL,
-  PRIMARY KEY (`test_id`),
-  KEY `FK_course_test` (`cou_course_id`),
-  CONSTRAINT `FK_course_test` FOREIGN KEY (`cou_course_id`) REFERENCES `course` (`course_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='娴嬭瘯id锛歵est_id\n娴嬭瘯鍚嶏細test_name\n娴嬭瘯鏃堕棿锛歵est_time\n';
+  PRIMARY KEY (`test_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='娴嬭瘯id锛歵est_id\n娴嬭瘯鍚嶏細test_name\n娴嬭瘯鏃堕棿锛歵est_time\n';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -427,6 +426,7 @@ CREATE TABLE `test` (
 
 LOCK TABLES `test` WRITE;
 /*!40000 ALTER TABLE `test` DISABLE KEYS */;
+INSERT INTO `test` VALUES (1,'第一次测试',60,'2020-09-05','2020-09-05');
 /*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,11 +440,8 @@ DROP TABLE IF EXISTS `test_question`;
 CREATE TABLE `test_question` (
   `test_id` varchar(255) NOT NULL,
   `question_id` varchar(255) DEFAULT NULL,
-  `grade` int(11) DEFAULT NULL,
   KEY `FK_question_test1` (`test_id`),
-  KEY `FK_question_test2` (`question_id`),
-  CONSTRAINT `FK_question_test1` FOREIGN KEY (`test_id`) REFERENCES `test` (`test_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_question_test2` FOREIGN KEY (`question_id`) REFERENCES `question` (`question_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `FK_question_test2` (`question_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -484,7 +481,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('69e0299c-0998-41af-9a87-6a200d219bd6','63409f78-6cf5-46b6-8787-41971e4d37fc','test','xxxx',NULL,'$2a$10$7PwKC3xIOtTDM4yc89r4WOpnSdIUN/lm5Ki22fKHjPMfO98eK7bfq',NULL);
+INSERT INTO `user` VALUES ('2ccbe83a-5ee0-4311-8918-de3d73d64af2','f09d6c21-4694-4b9b-913a-f4dc51fe19f3','asd','17624121212',NULL,'$2a$10$Y84Baaq.IknzDLM7dLhmrenLfob50Vzk1efTR4Oxqp0Ws6bFJFvwi',NULL),('5c472d7f-ad6b-4d1a-a6a4-a5d7ce5181d3','576c79bd-bcd0-4064-b5e4-486f033eade3','asd','17623310105',NULL,'$2a$10$MnZXWiA.XMDeH4CWjPQUROXMykCrtnPtSk1w6.PiN1g8LcbW1lzqm',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -532,8 +529,7 @@ CREATE TABLE `user_test` (
   `ut_begin` date DEFAULT NULL,
   PRIMARY KEY (`use_uid`,`tes_test_id`),
   KEY `FK_user_test2` (`tes_test_id`),
-  CONSTRAINT `FK_user_test` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `FK_user_test2` FOREIGN KEY (`tes_test_id`) REFERENCES `test` (`test_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `FK_user_test` FOREIGN KEY (`use_uid`) REFERENCES `user` (`uid`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='鎴愮哗锛歶t_grade\n鐘舵?锛歶t_state\n瀛︾敓寮??绛旈?鏃堕棿锛歶t_begin';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -555,4 +551,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-08-05 22:48:02
+-- Dump completed on 2020-09-10  9:44:33

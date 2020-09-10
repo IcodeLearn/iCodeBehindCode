@@ -15,11 +15,29 @@
         #{questionAnswer}, #{questionParse}, #{questionLevel}, #{questionType}, #{lType}, #{sourceId})
     </insert>
 
-    <select id="findAllQuestionById" parameterType="string" resultType="Question">
-        select * from question where source_id = #{sourceId}
+    <select id="findAllQuestionById" resultType="Question">
+        select * from question where source_id = #{sourceId} order by field(question_type,
+        <foreach collection="sortBy" separator="," index="index" item="item">
+            #{item}
+        </foreach> )
     </select>
+
 
     <select id="findAllQuestionByIdAndType" resultType="Question">
         select * from question where source_id = #{sourceId} and question_type = #{type}
+    </select>
+
+    <select id="getCountByType" parameterType="string" resultType="int">
+        select count(*) from question where question_type = #{type} and source_id = #{id}
+    </select>
+
+    <select id="selectQuestionByKnowledge" resultType="int">
+        select question_id from question_link_knowledge where id in
+            (
+                <foreach collection="set" item="item" index="index" separator=",">
+                    #{item}
+                </foreach>
+            )
+        and question_type = #{questionType}
     </select>
 </mapper>

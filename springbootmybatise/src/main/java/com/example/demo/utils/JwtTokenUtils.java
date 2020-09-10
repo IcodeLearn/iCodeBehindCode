@@ -7,7 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.HashMap;
 
-public class JwtTokenUtils {
+public final class JwtTokenUtils {
     public static final String TOKEN_HEADER = "Authorization";
 
     public static final String TOKEN_PREFIX = "Bearer ";
@@ -62,4 +62,6 @@ public class JwtTokenUtils {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
+    private JwtTokenUtils() {}
 }

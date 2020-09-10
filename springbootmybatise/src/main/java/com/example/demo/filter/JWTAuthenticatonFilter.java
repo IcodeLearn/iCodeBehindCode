@@ -10,7 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.FilterChain;
@@ -32,11 +34,9 @@ public class JWTAuthenticatonFilter extends UsernamePasswordAuthenticationFilter
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         System.out.println("开始登陆了！");
-
         // 从输入流中获取登陆的信息
         try{
             LoginUser loginUser = new ObjectMapper().readValue(request.getInputStream(), LoginUser.class);
-
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
                     loginUser.getPassword(), new ArrayList<>()));
         } catch (IOException e) {
@@ -63,8 +63,9 @@ public class JWTAuthenticatonFilter extends UsernamePasswordAuthenticationFilter
         // 返回创建成功的token
         // 按照jwt的规定，最后请求的格式应该是"Bearer token"
         response.setHeader("token", JwtTokenUtils.TOKEN_PREFIX + token);
+
         response.getWriter().write(mapper.writeValueAsString(ResultMap.setResult("200", new JwtUser(jwtUser.getId(), jwtUser.getUsername(), jwtUser.getAuthorities()),
-                "登陆成功！")));
+                "登陆成功！", token)));
     }
 
     // 验证失败的回调
